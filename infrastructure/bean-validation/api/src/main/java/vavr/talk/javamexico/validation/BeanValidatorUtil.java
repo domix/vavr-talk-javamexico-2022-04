@@ -1,4 +1,4 @@
-package foo;
+package vavr.talk.javamexico.validation;
 
 import vavr.talk.javamexico.Failure;
 import io.vavr.control.Either;

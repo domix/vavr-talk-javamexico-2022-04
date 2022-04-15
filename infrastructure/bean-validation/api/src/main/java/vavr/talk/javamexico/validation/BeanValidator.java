@@ -1,4 +1,4 @@
-package foo;
+package vavr.talk.javamexico.validation;
 
 import vavr.talk.javamexico.Failure;
 import io.vavr.control.Either;
@@ -12,8 +12,8 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import static foo.BeanValidatorUtil.orEmpty;
-import static foo.BeanValidatorUtil.wrapFailure;
+import static vavr.talk.javamexico.validation.BeanValidatorUtil.orEmpty;
+import static vavr.talk.javamexico.validation.BeanValidatorUtil.wrapFailure;
 
 /**
  * Contract to perform Bean Validations and wrap the errors with {@link Failure}.
