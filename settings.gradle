@@ -6,3 +6,4 @@ include('infrastructure:failure')
 include('infrastructure:bean-validation:hibernate')
 
 include('infrastructure:bean-validation:api')
+include('infrastructure:bean-validation:javax')

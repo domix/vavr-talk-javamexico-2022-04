@@ -1,0 +1,24 @@
+plugins {
+  id 'java-library'
+  id 'groovy'
+}
+
+repositories {
+  mavenCentral()
+}
+
+dependencies {
+  annotationProcessor "org.projectlombok:lombok:1.18.22"
+
+  compileOnly "org.projectlombok:lombok:1.18.22"
+
+  api project(':infrastructure:bean-validation:api')
+
+  //Bean Validation
+  api "org.hibernate.validator:hibernate-validator:6.2.0.Final"
+  api "org.glassfish:jakarta.el:3.0.3"
+
+  api "org.slf4j:slf4j-api:1.7.32"
+
+
+}
