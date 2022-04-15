@@ -3,7 +3,9 @@ rootProject.name = 'vavr-talk-javamexico-2022-04'
 include('business:model')
 
 include('infrastructure:failure')
-include('infrastructure:bean-validation:hibernate')
 
+//Validation modules
+include('infrastructure:bean-validation:hibernate')
 include('infrastructure:bean-validation:api')
 include('infrastructure:bean-validation:javax')
+include('infrastructure:bean-validation:jakarta')
