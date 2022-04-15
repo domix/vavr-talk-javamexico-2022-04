@@ -3,11 +3,11 @@ package vavr.talk.javamexico.validation;
 import org.assertj.core.api.Condition;
 import vavr.talk.javamexico.Failure;
 
+import java.util.Objects;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class ValidationApiTCK {
-  final static Condition<Failure> noThrowableCause = new Condition<>(failure -> failure.getCause().toJavaOptional().isEmpty(), "has no cause");
-  final static Condition<Failure.ErrorType> errorTypeIsValidation = new Condition<>(errorType -> errorType.equals(Failure.ErrorType.VALIDATION), "is validation type");
 
   public static boolean validate(BeanValidator<?> beanValidator, Object underValidation, int errorsFound) {
     final var validationResult = beanValidator.validateBean(underValidation);
@@ -42,9 +42,12 @@ public class ValidationApiTCK {
       assertThat(detail.getCodeMessage()).isNotEmpty();
       assertThat(detail.getLocalizedMessage()).isNotEmpty();
       assertThat(detail.getPath()).isNotEmpty();
-      assertThat(detail.getType()).is(errorTypeIsValidation);
+      assertThat(detail.getType()).is(validationErrorType);
     });
 
     return true;
   }
+
+  final static Condition<Failure> noThrowableCause = new Condition<>(failure -> failure.getCause().toJavaOptional().isEmpty(), "has no cause");
+  final static Condition<Failure.ErrorType> validationErrorType = new Condition<>(errorType -> Objects.equals(Failure.ErrorType.VALIDATION, errorType), "is validation type");
 }
