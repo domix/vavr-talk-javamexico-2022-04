@@ -14,7 +14,7 @@ import java.util.Set;
 @Builder
 public class JakartaBeanValidation implements BeanValidator<ConstraintViolation<?>> {
 
-  public static JakartaBeanValidation ofDefault() {
+  public static JakartaBeanValidation ofDefaults() {
     return JakartaBeanValidation.builder().build();
   }
 

@@ -8,7 +8,7 @@ class JavaxBeanValidationSpecs extends Specification {
 
   def 'should validate the expected behaviour for "#scenario"'() {
     given: 'A validator from Javax'
-      BeanValidator validator = JavaxBeanValidation.ofDefault()
+      BeanValidator validator = JavaxBeanValidation.ofDefaults()
     when: 'try to pass the TCK'
       def passTCK = ValidationApiTCK.validate(validator, bean, errors)
     then: 'we should pass the TCK'

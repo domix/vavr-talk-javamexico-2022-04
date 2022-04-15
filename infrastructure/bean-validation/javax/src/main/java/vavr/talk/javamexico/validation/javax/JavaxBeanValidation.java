@@ -15,7 +15,7 @@ import java.util.Set;
 @Builder
 public class JavaxBeanValidation implements BeanValidator<ConstraintViolation<?>> {
 
-  public static JavaxBeanValidation ofDefault() {
+  public static JavaxBeanValidation ofDefaults() {
     return JavaxBeanValidation.builder().build();
   }
 

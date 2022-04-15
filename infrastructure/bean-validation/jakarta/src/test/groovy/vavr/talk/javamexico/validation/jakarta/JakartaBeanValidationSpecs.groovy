@@ -8,7 +8,7 @@ class JakartaBeanValidationSpecs extends Specification {
 
   def 'should validate the expected behaviour for "#scenario"'() {
     given: 'A validator from Jakarta'
-      BeanValidator validator = JakartaBeanValidation.ofDefault()
+      BeanValidator validator = JakartaBeanValidation.ofDefaults()
     when: 'try to pass the TCK'
       def passTCK = ValidationApiTCK.validate(validator, bean, errors)
     then: 'we should pass the TCK'
