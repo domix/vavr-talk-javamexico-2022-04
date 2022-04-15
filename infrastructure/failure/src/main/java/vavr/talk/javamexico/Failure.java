@@ -1,4 +1,4 @@
-package domix;
+package vavr.talk.javamexico;
 
 import io.vavr.control.Option;
 import lombok.Builder;

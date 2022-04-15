@@ -1,6 +1,6 @@
 package foo;
 
-import domix.Failure;
+import vavr.talk.javamexico.Failure;
 import io.vavr.control.Either;
 import io.vavr.control.Try;
 import lombok.NonNull;
