@@ -4,3 +4,5 @@ include('business:model')
 
 include('infrastructure:failure')
 include('infrastructure:bean-validation:hibernate')
+
+include('infrastructure:bean-validation:api')

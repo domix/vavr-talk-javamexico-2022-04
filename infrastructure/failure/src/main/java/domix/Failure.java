@@ -90,14 +90,6 @@ public class Failure {
     return of(cause, DEFAULT_I18N_CODE, cause.getMessage());
   }
 
-  /**
-   * Create a {@link Failure} with the given parameters
-   *
-   * @param cause    exception caught
-   * @param i18nCode the given {@code i18nCode}
-   * @param reason   simple message of the failure
-   * @return a fresh instance
-   */
   @Nonnull
   public static Failure of(
     final @Nonnull Throwable cause,
@@ -116,13 +108,6 @@ public class Failure {
       .build();
   }
 
-  /**
-   * Create a {@link Failure} with the given parameters
-   *
-   * @param i18nCode the given {@code i18nCode}
-   * @param reason   simple message of the failure
-   * @return a fresh instance
-   */
   @Nonnull
   public static Failure of(
     final @Nonnull String i18nCode,
@@ -136,6 +121,48 @@ public class Failure {
       .i18nData(i18nData)
       .code(i18nCode)
       .reason(reason)
+      .build();
+  }
+
+  @Nonnull
+  public static Failure ofValidationErrors(final @Nonnull List<Detail> details) {
+    return Failure.builder()
+      .reason("Validation errors found")
+      .details(details)
+      .build();
+  }
+
+  @Nonnull
+  public static Failure of(final @Nonnull Throwable throwable, final @Nonnull String failureCode) {
+    return of(throwable, failureCode, DEFAULT_I18N_CODE);
+  }
+
+  @Nonnull
+  public static Failure of(final @Nonnull Detail detail) {
+    return ofValidationErrors(List.of(detail));
+  }
+
+  @Nonnull
+  public static Failure.Detail ofValidationError(
+    final @Nonnull String codeMessage,
+    final @Nonnull String localizedMessage,
+    final @Nonnull String path
+  ) {
+    return of(codeMessage, localizedMessage, path, ErrorType.VALIDATION);
+  }
+
+  @Nonnull
+  public static Failure.Detail of(
+    final @Nonnull String codeMessage,
+    final @Nonnull String localizedMessage,
+    final @Nonnull String path,
+    final @Nonnull Failure.ErrorType type
+  ) {
+    return Failure.Detail.builder()
+      .codeMessage(codeMessage)
+      .localizedMessage(localizedMessage)
+      .path(path)
+      .type(type)
       .build();
   }
 }

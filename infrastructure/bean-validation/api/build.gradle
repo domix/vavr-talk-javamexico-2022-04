@@ -1,0 +1,32 @@
+plugins {
+  id 'groovy'
+  id 'java-library'
+  id 'idea'
+  id 'com.github.ben-manes.versions' version '0.42.0'
+}
+
+repositories {
+  mavenCentral()
+}
+
+dependencies {
+  annotationProcessor("org.projectlombok:lombok:1.18.22")
+  api project(':infrastructure:failure')
+
+  compileOnly("org.projectlombok:lombok:1.18.22")
+}
+
+java {
+  sourceCompatibility = JavaVersion.toVersion("17")
+  targetCompatibility = JavaVersion.toVersion("17")
+}
+
+testing {
+  suites {
+    // Configure the built-in test suite
+    test {
+      // Use Spock test framework
+      useSpock('2.0-groovy-3.0')
+    }
+  }
+}
