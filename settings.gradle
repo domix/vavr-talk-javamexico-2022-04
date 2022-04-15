@@ -1,2 +1,2 @@
 rootProject.name = 'vavr-talk-javamexico-2022-04'
-include('lib')
+include('bean-validation')
