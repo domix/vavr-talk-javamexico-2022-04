@@ -84,7 +84,9 @@ public class Failure {
   }
 
   @Nonnull
-  public static Failure of(final @Nonnull Throwable cause) {
+  public static Failure of(
+    final @Nonnull Throwable cause
+  ) {
     return of(cause, DEFAULT_I18N_CODE, cause.getMessage());
   }
 
@@ -97,9 +99,11 @@ public class Failure {
    * @return a fresh instance
    */
   @Nonnull
-  public static Failure of(final @Nonnull Throwable cause,
-                           final @Nonnull String i18nCode,
-                           final @Nonnull String reason) {
+  public static Failure of(
+    final @Nonnull Throwable cause,
+    final @Nonnull String i18nCode,
+    final @Nonnull String reason
+  ) {
     final var i18nData = Failure.I18nData.builder()
       .defaultMessage(reason)
       .code(i18nCode)
@@ -120,8 +124,10 @@ public class Failure {
    * @return a fresh instance
    */
   @Nonnull
-  public static Failure of(final @Nonnull String i18nCode,
-                           final @Nonnull String reason) {
+  public static Failure of(
+    final @Nonnull String i18nCode,
+    final @Nonnull String reason
+  ) {
     final var i18nData = Failure.I18nData.builder()
       .defaultMessage(reason)
       .code(i18nCode)
