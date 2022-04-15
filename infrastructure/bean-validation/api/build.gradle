@@ -2,6 +2,7 @@ plugins {
   id 'groovy'
   id 'java-library'
   id 'idea'
+  id 'java-test-fixtures'
   id 'com.github.ben-manes.versions' version '0.42.0'
 }
 
@@ -15,6 +16,8 @@ dependencies {
   api "org.slf4j:slf4j-api:1.7.32"
 
   compileOnly("org.projectlombok:lombok:1.18.22")
+
+  testFixturesApi 'org.assertj:assertj-core:3.22.0'
 }
 
 java {
@@ -29,5 +32,12 @@ testing {
       // Use Spock test framework
       useSpock('2.0-groovy-3.0')
     }
+  }
+}
+
+idea {
+  module {
+    testSourceDirs += file('src/testFixtures/java/')
+    testSourceDirs += file('src/testFixtures/groovy/')
   }
 }

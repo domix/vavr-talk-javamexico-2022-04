@@ -21,6 +21,8 @@ dependencies {
   //Bean Validation 2
   api "org.hibernate.validator:hibernate-validator:6.2.0.Final"
   api "org.glassfish:jakarta.el:3.0.3"
+
+  testImplementation(testFixtures(project(":infrastructure:bean-validation:api")))
 }
 
 java {
