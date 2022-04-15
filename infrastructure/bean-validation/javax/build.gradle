@@ -1,6 +1,8 @@
 plugins {
-  id 'java-library'
   id 'groovy'
+  id 'java-library'
+  id 'idea'
+  id 'com.github.ben-manes.versions' version '0.42.0'
 }
 
 repositories {
@@ -9,8 +11,10 @@ repositories {
 
 dependencies {
   annotationProcessor "org.projectlombok:lombok:1.18.22"
+  testAnnotationProcessor "org.projectlombok:lombok:1.18.22"
 
   compileOnly "org.projectlombok:lombok:1.18.22"
+  testCompileOnly "org.projectlombok:lombok:1.18.22"
 
   api project(':infrastructure:bean-validation:api')
 
@@ -19,6 +23,19 @@ dependencies {
   api "org.glassfish:jakarta.el:3.0.3"
 
   api "org.slf4j:slf4j-api:1.7.32"
+}
 
+java {
+  sourceCompatibility = JavaVersion.toVersion("17")
+  targetCompatibility = JavaVersion.toVersion("17")
+}
 
+testing {
+  suites {
+    // Configure the built-in test suite
+    test {
+      // Use Spock test framework
+      useSpock('2.0-groovy-3.0')
+    }
+  }
 }
