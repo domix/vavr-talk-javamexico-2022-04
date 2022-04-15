@@ -11,8 +11,8 @@ repositories {
 
 dependencies {
   annotationProcessor("org.projectlombok:lombok:1.18.22")
-  api 'org.apache.commons:commons-math3:3.6.1'
-  implementation 'com.google.guava:guava:30.1.1-jre'
+  api project(':business:model')
+
   implementation 'org.hibernate.validator:hibernate-validator:7.0.4.Final'
   implementation 'org.glassfish:jakarta.el:4.0.1'
 
