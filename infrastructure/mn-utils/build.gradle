@@ -1,0 +1,27 @@
+plugins {
+  id 'io.micronaut.library' version '1.3.2'
+  id 'groovy'
+}
+
+version "0.1"
+group = "vavr.talk.javamexico"
+
+repositories {
+  mavenCentral()
+}
+
+micronaut {
+  version = "3.4.2"
+}
+
+
+dependencies {
+  annotationProcessor("org.projectlombok:lombok")
+  compileOnly("org.projectlombok:lombok")
+
+  implementation('io.micronaut:micronaut-http')
+  implementation(project(':infrastructure:failure'))
+
+  //api 'io.vavr:vavr:0.10.4'
+  //api "com.google.code.findbugs:jsr305:3.0.2"
+}

@@ -10,3 +10,5 @@ include('infrastructure:bean-validation:hibernate')
 include('infrastructure:bean-validation:api')
 include('infrastructure:bean-validation:javax')
 include('infrastructure:bean-validation:jakarta')
+
+include('infrastructure:mn-utils')

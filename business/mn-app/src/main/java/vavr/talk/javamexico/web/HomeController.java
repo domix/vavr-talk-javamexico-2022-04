@@ -5,12 +5,9 @@ import io.micronaut.http.HttpResponseFactory;
 import io.micronaut.http.HttpStatus;
 import io.micronaut.http.annotation.Controller;
 import io.micronaut.http.annotation.Get;
-import io.vavr.control.Either;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import vavr.talk.javamexico.Failure;
 import vavr.talk.javamexico.business.BusinessContract;
-import vavr.talk.javamexico.business.Greeting;
 
 import java.util.Map;
 import java.util.function.Function;
@@ -23,9 +20,8 @@ public class HomeController {
 
   @Get
   public HttpResponse<?> index() {
-    Either<Failure, Greeting> processResult = businessContract.someProcess();
-    return processResult
-      .peek(greeting -> log.info("Saludo: {}", greeting.getMessage()))
+    return businessContract.someProcess()
+      .peek(greeting -> log.info("Greeting: {}", greeting.getMessage()))
       .peekLeft(failure -> failure.getCause()
         .peek(throwable -> log.error(throwable.getMessage(), throwable))
         .onEmpty(() -> log.warn(failure.getReason())))
