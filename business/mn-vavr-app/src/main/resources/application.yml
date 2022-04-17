@@ -1,6 +1,6 @@
 micronaut:
   application:
-    name: mn-app
+    name: demo
 netty:
   default:
     allocator:

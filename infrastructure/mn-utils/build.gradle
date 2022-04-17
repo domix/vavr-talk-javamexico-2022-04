@@ -21,7 +21,4 @@ dependencies {
 
   implementation('io.micronaut:micronaut-http')
   implementation(project(':infrastructure:failure'))
-
-  //api 'io.vavr:vavr:0.10.4'
-  //api "com.google.code.findbugs:jsr305:3.0.2"
 }

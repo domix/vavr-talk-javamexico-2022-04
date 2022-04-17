@@ -1,9 +1,5 @@
 rootProject.name = 'vavr-talk-javamexico-2022-04'
 
-include('business:api')
-include('business:model')
-include('business:mn-app')
-
 include('infrastructure:failure')
 
 //Validation modules
@@ -12,4 +8,13 @@ include('infrastructure:bean-validation:api')
 include('infrastructure:bean-validation:javax')
 include('infrastructure:bean-validation:jakarta')
 
+//Micronaut utils
 include('infrastructure:mn-utils')
+
+//business libs
+include('business:api')
+include('business:model')
+
+//business apps
+include('business:mn-app')
+include('business:mn-vavr-app')
