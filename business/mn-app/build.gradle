@@ -29,6 +29,7 @@ dependencies {
   testImplementation("org.testcontainers:testcontainers")
   implementation("io.micronaut:micronaut-validation")
 
+  implementation project(':business:api')
   implementation project(':infrastructure:bean-validation:jakarta')
   implementation 'org.apache.commons:commons-lang3:3.12.0'
 }
