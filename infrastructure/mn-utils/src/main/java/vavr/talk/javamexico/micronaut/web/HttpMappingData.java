@@ -8,6 +8,8 @@ import lombok.RequiredArgsConstructor;
 @Getter
 @RequiredArgsConstructor
 public class HttpMappingData {
-  final Integer httpStatusCode;
-  final FailureMapper<?> mapper;
+  @Builder.Default
+  final Integer httpStatusCode = 400;
+  @Builder.Default
+  final FailureMapper<?> mapper = HttpResponseFailureMapper.defaultMapper;
 }

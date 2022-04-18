@@ -4,22 +4,19 @@ import io.micronaut.http.HttpResponseFactory;
 import io.micronaut.http.HttpStatus;
 import io.micronaut.http.MutableHttpResponse;
 import lombok.Synchronized;
-import lombok.extern.slf4j.Slf4j;
 import vavr.talk.javamexico.Failure;
 
 import javax.annotation.Nonnull;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-@Slf4j
 public class HttpResponseFailureMapper {
   private static final ConcurrentHashMap<String, HttpMappingData> mappings = new ConcurrentHashMap<>();
-  private static final FailureMapper<Map<String, String>> defaultMapper = new FailureMapper<>() {
+  public static final FailureMapper<Map<String, String>> defaultMapper = new FailureMapper<>() {
 
     @Nonnull
     @Override
     public Map<String, String> map(@Nonnull Failure failure) {
-      log.warn("Default mapping failure for code: '{}'", failure.getCode());
       return Map.of(
         "reason", failure.getReason()
       );
@@ -32,7 +29,7 @@ public class HttpResponseFailureMapper {
     .build();
 
   @Synchronized
-  private static void register(String errorCode, HttpMappingData httpMappingData) {
+  public static void register(@Nonnull String errorCode, @Nonnull HttpMappingData httpMappingData) {
     mappings.put(errorCode, httpMappingData);
   }
 
