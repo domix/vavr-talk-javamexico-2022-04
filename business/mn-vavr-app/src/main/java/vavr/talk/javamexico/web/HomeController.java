@@ -18,10 +18,7 @@ public class HomeController {
   public HttpResponse<?> index() {
 
     final var greetings = businessContract.someProcess()
-      .peek(greeting -> log.info("Greeting: {}", greeting.getMessage()))
-      .peekLeft(failure -> failure.getCause()
-        .peek(throwable -> log.error(throwable.getMessage(), throwable))
-        .onEmpty(() -> log.warn(failure.getReason())));
+      .peek(greeting -> log.info("Greeting: {}", greeting.getMessage()));
 
     return MicronautHttpResponseFactory.ok(greetings);
   }
