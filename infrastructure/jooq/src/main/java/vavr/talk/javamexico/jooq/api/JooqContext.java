@@ -5,7 +5,7 @@ import org.jooq.DSLContext;
 /**
  * Simple contract for any jOOQ Context
  */
-interface JooqContext {
+public interface JooqContext {
 
     String DEFAULT_DOMAIN_NAME = "unnamed-domain";
 
