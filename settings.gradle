@@ -8,6 +8,9 @@ include('infrastructure:bean-validation:api')
 include('infrastructure:bean-validation:javax')
 include('infrastructure:bean-validation:jakarta')
 
+//jOOQ modules
+include('infrastructure:jooq')
+
 //Micronaut utils
 include('infrastructure:mn-utils')
 

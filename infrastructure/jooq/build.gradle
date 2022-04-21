@@ -1,0 +1,28 @@
+plugins {
+    id 'java-library'
+}
+
+version '0.1.0'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    annotationProcessor "org.projectlombok:lombok:1.18.22"
+    testAnnotationProcessor "org.projectlombok:lombok:1.18.22"
+
+    compileOnly "org.projectlombok:lombok:1.18.22"
+    testCompileOnly "org.projectlombok:lombok:1.18.22"
+
+    api 'org.springframework:spring-jdbc:5.3.18'
+    api 'org.jooq:jooq:3.16.4'
+
+    api project(':infrastructure:failure')
+    api project(':infrastructure:bean-validation:jakarta')
+
+    testImplementation 'org.codehaus.groovy:groovy:3.0.10'
+    testImplementation 'org.spockframework:spock-core:2.1-groovy-3.0'
+    testImplementation 'jakarta.annotation:jakarta.annotation-api:2.0.0'
+    testImplementation 'jakarta.validation:jakarta.validation-api:3.0.1'
+}
