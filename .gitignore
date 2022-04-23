@@ -5,9 +5,11 @@
 build
 
 .idea
+*.iml
+*.ipr
+*.iws
+out
 
 gensrc/
 
 .DS_Store
-
-*.iml
