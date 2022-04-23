@@ -41,3 +41,7 @@ idea {
     testSourceDirs += file('src/testFixtures/groovy/')
   }
 }
+
+jar {
+  baseName 'bv-api'
+}
