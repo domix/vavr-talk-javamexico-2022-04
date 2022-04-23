@@ -9,6 +9,7 @@ CREATE TABLE investing_term
 CREATE TABLE investing_user_interest
 (
     id               BIGSERIAL PRIMARY KEY,
+    term_id          BIGINT     NOT NULL,
     user_id          BIGINT     NOT NULL,
     currency         VARCHAR(3) NOT NULL DEFAULT 'mxn',
     start_balance    VARCHAR    NOT NULL DEFAULT '0.00',
