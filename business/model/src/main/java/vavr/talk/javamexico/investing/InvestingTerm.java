@@ -1,5 +1,6 @@
-package vavr.talk.javamexico.business.investing;
+package vavr.talk.javamexico.investing;
 
+import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.Value;
 
@@ -7,8 +8,9 @@ import lombok.Value;
 @Builder
 public class InvestingTerm {
 
-    long id;
+    Long id;
 
+    @NotNull
     TermPeriod calculationPeriod;
 
     public enum TermPeriod {
