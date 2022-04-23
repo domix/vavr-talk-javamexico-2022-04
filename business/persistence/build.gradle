@@ -18,6 +18,10 @@ dependencies {
   api "com.google.code.findbugs:jsr305:3.0.2"
 
   api project(':infrastructure:failure')
+  api project(':business:api')
+  api project(':business:model')
+  api project(':infrastructure:jooq')
+  api project(':infrastructure:bean-validation:jakarta')
 
   api "org.slf4j:slf4j-api:1.7.36"
 
