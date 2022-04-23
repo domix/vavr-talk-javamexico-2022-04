@@ -2,7 +2,8 @@ package vavr.talk.javamexico.persistence.mapper;
 
 import io.vavr.control.Either;
 import lombok.AccessLevel;
-import lombok.RequiredArgsConstructor;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import vavr.talk.javamexico.Failure;
 import vavr.talk.javamexico.investing.InvestingTerm;
 import vavr.talk.javamexico.jooq.api.JooqReadOperations;
@@ -18,14 +19,15 @@ import static vavr.talk.javamexico.persistence.jooq.tables.InvestingTerm.INVESTI
 import static vavr.talk.javamexico.persistence.mapper.InvestingRecordMapper.INSTANCE;
 
 
-@RequiredArgsConstructor(access = AccessLevel.PRIVATE)
+@NoArgsConstructor(access = AccessLevel.PACKAGE)
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class InvestingTermDbRepository {
 
     static final String DOMAIN_NAME = INVESTING_TERM.getName();
 
-    private final JooqReadOperations jooqReadOperations;
-    private final JooqWriteOperations jooqWriteOperations;
-    private final BeanValidator<?> beanValidator;
+    private JooqReadOperations jooqReadOperations;
+    private JooqWriteOperations jooqWriteOperations;
+    private BeanValidator<?> beanValidator;
 
     public static InvestingTermDbRepository create(final DataSource dataSource,
                                                    final BeanValidator<?> beanValidator) {
