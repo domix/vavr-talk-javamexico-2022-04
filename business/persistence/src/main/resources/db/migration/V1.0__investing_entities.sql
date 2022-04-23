@@ -1,22 +1,50 @@
-CREATE TABLE investing_term
+create table user
 (
-    id                 BIGSERIAL PRIMARY KEY,
-    calculation_period VARCHAR   NOT NULL,
-    created            TIMESTAMP NOT NULL,
-    updated            TIMESTAMP
+    id         BIGSERIAL PRIMARY KEY,
+    first_name VARCHAR(100),
+    last_name  VARCHAR(100),
+    email      VARCHAR(100),
+    created_on TIMESTAMP NOT NULL,
+    updated_on TIMESTAMP
 );
 
-CREATE TABLE investing_user_interest
+CREATE TABLE investing_contract
 (
-    id               BIGSERIAL PRIMARY KEY,
-    term_id          BIGINT      NOT NULL,
-    user_id          BIGINT      NOT NULL,
-    currency         VARCHAR(10) NOT NULL DEFAULT 'mxn',
-    start_balance    VARCHAR     NOT NULL DEFAULT '0.00',
-    average_balance  VARCHAR     NOT NULL DEFAULT '0.00',
-    end_balance      VARCHAR     NOT NULL DEFAULT '0.00',
-    interest         VARCHAR     NOT NULL DEFAULT '0.00',
-    accrued_interest VARCHAR     NOT NULL DEFAULT '0.00',
-    created          TIMESTAMP   NOT NULL,
-    updated          TIMESTAMP
+    id                   BIGSERIAL PRIMARY KEY,
+    contract_name        VARCHAR(30) NOT NULL,
+    currency             VARCHAR(10) NOT NULL DEFAULT 'mxn',
+    annual_interest_rate VARCHAR(15) NOT NULL DEFAULT '0.00',
+    created              TIMESTAMP   NOT NULL,
+    updated              TIMESTAMP
+);
+
+CREATE TABLE investing_account
+(
+    id              BIGSERIAL PRIMARY KEY,
+    contract_id     BIGINT      NOT NULL,
+    user_id         BIGINT      NOT NULL,
+    status          VARCHAR(20) NOT NULL DEFAULT 'pending',
+    start_balance   VARCHAR(50) NOT NULL DEFAULT '0.00',
+    current_balance VARCHAR(50) NOT NULL DEFAULT '0.00',
+    created         TIMESTAMP   NOT NULL,
+    updated         TIMESTAMP,
+
+    CONSTRAINT fk_contract
+        FOREIGN KEY (contract_id)
+            REFERENCES investing_contract (id),
+    CONSTRAINT fk_user
+        FOREIGN KEY (user_id)
+            REFERENCES user (id)
+);
+
+CREATE TABLE investing_contract_movement
+(
+    id            BIGSERIAL PRIMARY KEY,
+    account_id    BIGINT      NOT NULL,
+    movement_type VARCHAR(20) NOT NULL DEFAULT 'initial_balance',
+    amount        VARCHAR(50) NOT NULL DEFAULT '0.00',
+
+    CONSTRAINT fk_account
+        FOREIGN KEY (account_id)
+            REFERENCES investing_account (id)
 );
