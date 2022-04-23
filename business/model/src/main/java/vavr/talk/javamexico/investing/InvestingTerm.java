@@ -6,8 +6,6 @@ import lombok.Value;
 
 import java.time.OffsetDateTime;
 
-import java.time.OffsetDateTime;
-
 @Value
 @Builder
 public class InvestingTerm {
@@ -16,7 +14,7 @@ public class InvestingTerm {
 
     @NotNull
     TermPeriod calculationPeriod;
-    
+
     OffsetDateTime created;
     OffsetDateTime updated;
 
