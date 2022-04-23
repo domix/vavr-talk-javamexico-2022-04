@@ -5,3 +5,7 @@
 build
 
 .idea
+
+gensrc/
+
+.DS_Store

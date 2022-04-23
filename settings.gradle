@@ -21,3 +21,6 @@ include('business:model')
 //business apps
 include('business:mn-app')
 include('business:mn-vavr-app')
+
+//persistence module
+include('business:persistence')
