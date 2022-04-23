@@ -1,98 +1,98 @@
 plugins {
-    id 'groovy'
-    id 'idea'
-    id 'java-library'
-    id 'com.github.ben-manes.versions' version '0.42.0'
-    id 'nu.studer.jooq' version '7.1.1'
-    id 'org.flywaydb.flyway' version '8.5.8'
+  id 'groovy'
+  id 'idea'
+  id 'java-library'
+  id 'com.github.ben-manes.versions' version '0.42.0'
+  id 'nu.studer.jooq' version '7.1.1'
+  id 'org.flywaydb.flyway' version '8.5.8'
 }
 
 repositories {
-    mavenCentral()
+  mavenCentral()
 }
 
 dependencies {
-    annotationProcessor("org.projectlombok:lombok:1.18.22")
+  annotationProcessor("org.projectlombok:lombok:1.18.22")
 
-    api 'io.vavr:vavr:0.10.4'
-    api "com.google.code.findbugs:jsr305:3.0.2"
+  api 'io.vavr:vavr:0.10.4'
+  api "com.google.code.findbugs:jsr305:3.0.2"
 
-    api project(':infrastructure:failure')
+  api project(':infrastructure:failure')
 
-    api "org.slf4j:slf4j-api:1.7.36"
+  api "org.slf4j:slf4j-api:1.7.36"
 
-    compileOnly("org.projectlombok:lombok:1.18.22")
+  compileOnly("org.projectlombok:lombok:1.18.22")
 
-    implementation "org.jooq:jooq:3.16.4"
-    implementation "org.jooq:jooq-codegen:3.16.4"
-    implementation "org.jooq:jooq-meta:3.16.4"
+  implementation "org.jooq:jooq:3.16.4"
+  implementation "org.jooq:jooq-codegen:3.16.4"
+  implementation "org.jooq:jooq-meta:3.16.4"
 
-    runtimeOnly "org.postgresql:postgresql:42.3.3"
+  runtimeOnly "org.postgresql:postgresql:42.3.3"
 
-    jooqGenerator "org.jooq:jooq-meta-extensions:3.16.4"
-    jooqGenerator "org.postgresql:postgresql:42.3.3"
+  jooqGenerator "org.jooq:jooq-meta-extensions:3.16.4"
+  jooqGenerator "org.postgresql:postgresql:42.3.3"
 }
 
 idea {
-    module {
-        sourceDirs += new File("${ project.projectDir }/gensrc/jooq/main")
-    }
+  module {
+    sourceDirs += new File("${ project.projectDir }/gensrc/jooq/main")
+  }
 }
 
 jooq {
-    configurations {
-        main {
-            generationTool {
-                logging = 'WARN'
-                generator {
-                    name = 'org.jooq.codegen.DefaultGenerator'
-                    database {
-                        name = 'org.jooq.meta.extensions.ddl.DDLDatabase'
-                        properties {
-                            property {
-                                key = 'scripts'
-                                value = "src/main/resources/db/migration/*.sql"
-                            }
-                            property {
-                                key = 'defaultNameCase'
-                                value = 'lower'
-                            }
-                            property {
-                                key = 'parseIgnoreComments'
-                                value = true
-                            }
-                        }
-                    }
-                    target {
-                        packageName = 'vavr.talk.javamexico.persistence.jooq'
-                        directory = 'gensrc/jooq/main'
-                    }
-                    strategy.name = 'org.jooq.codegen.DefaultGeneratorStrategy'
-                }
+  configurations {
+    main {
+      generationTool {
+        logging = 'WARN'
+        generator {
+          name = 'org.jooq.codegen.DefaultGenerator'
+          database {
+            name = 'org.jooq.meta.extensions.ddl.DDLDatabase'
+            properties {
+              property {
+                key = 'scripts'
+                value = "src/main/resources/db/migration/*.sql"
+              }
+              property {
+                key = 'defaultNameCase'
+                value = 'lower'
+              }
+              property {
+                key = 'parseIgnoreComments'
+                value = true
+              }
             }
+          }
+          target {
+            packageName = 'vavr.talk.javamexico.persistence.jooq'
+            directory = 'gensrc/jooq/main'
+          }
+          strategy.name = 'org.jooq.codegen.DefaultGeneratorStrategy'
         }
+      }
     }
+  }
 }
 
 java {
-    sourceCompatibility = JavaVersion.toVersion("17")
-    targetCompatibility = JavaVersion.toVersion("17")
+  sourceCompatibility = JavaVersion.toVersion("17")
+  targetCompatibility = JavaVersion.toVersion("17")
 }
 
 testing {
-    suites {
-        // Configure the built-in test suite
-        test {
-            // Use Spock test framework
-            useSpock('2.0-groovy-3.0')
-        }
+  suites {
+    // Configure the built-in test suite
+    test {
+      // Use Spock test framework
+      useSpock('2.0-groovy-3.0')
     }
+  }
 }
 
 flyway {
-    url = "jdbc:postgresql://localhost:5434/investing"
-    user = 'admin'
-    password = 'password'
-    schemas = ['public']
-    skipDefaultCallbacks = true
+  url = "jdbc:postgresql://localhost:5434/investing"
+  user = 'admin'
+  password = 'password'
+  schemas = ['public']
+  skipDefaultCallbacks = true
 }

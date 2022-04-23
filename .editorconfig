@@ -13,6 +13,9 @@ tab_width = 2
 trim_trailing_whitespace = false
 max_line_length = 100
 
+[*.sql]
+indent_size = 4
+
 [{*.gant,*.gradle,*.groovy,*.gson,*.gy}]
 ij_groovy_label_indent_size = 2
 ij_groovy_spaces_within_brackets = true
