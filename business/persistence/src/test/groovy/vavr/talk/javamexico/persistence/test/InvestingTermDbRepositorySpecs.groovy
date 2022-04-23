@@ -5,7 +5,7 @@ import io.micronaut.test.extensions.spock.annotation.MicronautTest
 import jakarta.inject.Inject
 import org.jooq.exception.DataAccessException
 import vavr.talk.javamexico.investing.InvestingTerm
-import vavr.talk.javamexico.persistence.mapper.InvestingTermDbRepository
+import vavr.talk.javamexico.persistence.db.repository.InvestingTermDbRepository
 
 import java.time.OffsetDateTime
 

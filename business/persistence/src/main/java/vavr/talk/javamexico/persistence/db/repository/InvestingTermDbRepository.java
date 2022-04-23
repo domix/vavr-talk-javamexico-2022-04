@@ -1,4 +1,4 @@
-package vavr.talk.javamexico.persistence.mapper;
+package vavr.talk.javamexico.persistence.db.repository;
 
 import io.vavr.control.Either;
 import lombok.AccessLevel;
