@@ -4,6 +4,8 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.Value;
 
+import java.time.OffsetDateTime;
+
 @Value
 @Builder
 public class InvestingTerm {
@@ -12,6 +14,9 @@ public class InvestingTerm {
 
     @NotNull
     TermPeriod calculationPeriod;
+    
+    OffsetDateTime created;
+    OffsetDateTime updated;
 
     public enum TermPeriod {
         WEEKLY,
