@@ -10,18 +10,23 @@ import org.jooq.RecordMapper;
 import org.jooq.Table;
 import vavr.talk.javamexico.Failure;
 import vavr.talk.javamexico.jooq.api.JooqStreamOperations;
+import vavr.talk.javamexico.jooq.factory.JooqOperationFailures;
 import vavr.talk.javamexico.jooq.factory.TransactionAwareJooqContextFactory;
 
 import javax.sql.DataSource;
 
 public final class JooqReadStreamOperations implements JooqStreamOperations {
 
+    static final String STREAM = "stream";
     private final DSLContext dslContext;
     private final String domainName;
+
+    private final JooqOperationFailures jooqOperationFailures;
 
     private JooqReadStreamOperations(final DSLContext dslContext, final String domainName) {
         this.dslContext = dslContext;
         this.domainName = domainName;
+        this.jooqOperationFailures = JooqOperationFailures.create(domainName);
     }
 
     @Override
@@ -52,7 +57,7 @@ public final class JooqReadStreamOperations implements JooqStreamOperations {
             )
             .mapTry(Stream::ofAll)
             .toEither()
-            .mapLeft(Failure::of);
+            .mapLeft(throwable -> jooqOperationFailures.createFailure(throwable, STREAM));
     }
 
 }
