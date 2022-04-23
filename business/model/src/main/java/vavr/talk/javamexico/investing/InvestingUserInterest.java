@@ -6,7 +6,10 @@ import lombok.Builder;
 import lombok.Value;
 
 import java.math.BigDecimal;
+<<<<<<< HEAD
 import java.time.OffsetDateTime;
+=======
+>>>>>>> b0113d7 (Moving models entities to model module)
 
 /**
  * The main function of this table is to keep track of the calculation of accrued interest for the period
@@ -42,8 +45,11 @@ public class InvestingUserInterest {
     @PositiveOrZero
     BigDecimal accruedInterest;
 
+<<<<<<< HEAD
     OffsetDateTime created;
 
     OffsetDateTime updated;
 
+=======
+>>>>>>> b0113d7 (Moving models entities to model module)
 }
