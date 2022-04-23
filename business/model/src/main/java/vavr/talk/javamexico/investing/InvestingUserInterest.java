@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Value;
 
 import java.math.BigDecimal;
+import java.time.OffsetDateTime;
 
 /**
  * The main function of this table is to keep track of the calculation of accrued interest for the period
@@ -40,5 +41,9 @@ public class InvestingUserInterest {
 
     @PositiveOrZero
     BigDecimal accruedInterest;
+
+    OffsetDateTime created;
+
+    OffsetDateTime updated;
 
 }
