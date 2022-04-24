@@ -13,18 +13,19 @@ import java.time.OffsetDateTime;
 @Builder
 public class InvestingContractMovement {
 
-    Long id;
+  Long id;
 
-    @PositiveOrZero
-    long accountId;
+  @PositiveOrZero
+  long accountId;
 
-    @NotBlank
-    String movementType;
+  @NotBlank
+  String movementType;
 
-    @PositiveOrZero
-    BigDecimal amount;
+  @PositiveOrZero
+  @Builder.Default
+  BigDecimal amount = BigDecimal.ZERO;
 
-    OffsetDateTime createdAt;
-    OffsetDateTime updatedAt;
+  OffsetDateTime createdAt;
+  OffsetDateTime updatedAt;
 
 }

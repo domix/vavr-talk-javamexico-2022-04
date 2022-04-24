@@ -47,7 +47,7 @@ public class InvestingUserDbRepository implements InvestingUserRepository {
 
     @Override
 
-    public Either<Failure, InvestingUser> get(final long userId) {
+    public Either<Failure, InvestingUser> find(final long userId) {
         final Function<DSLContext, Select<InvestingUserRecord>> query =
             context -> context.selectFrom(INVESTING_USER)
                 .where(INVESTING_USER.ID.eq(userId));

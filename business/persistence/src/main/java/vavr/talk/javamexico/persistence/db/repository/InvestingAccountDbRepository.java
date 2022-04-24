@@ -49,6 +49,16 @@ public class InvestingAccountDbRepository implements InvestingAccountRepository 
   }
 
   @Override
+  public Either<Failure, InvestingAccount> update(InvestingAccount account) {
+
+
+    return beanValidator.validateBean(account)
+      .map(INSTANCE::from)
+      .flatMap(termRecord ->
+        jooqWriteOperations.update(termRecord, INSTANCE::to));
+  }
+
+  @Override
   public Either<Failure, List<InvestingAccount>> findAllByUserId(final long userId) {
     final Function<DSLContext, Select<InvestingAccountRecord>> query =
       context -> context.selectFrom(INVESTING_ACCOUNT)
