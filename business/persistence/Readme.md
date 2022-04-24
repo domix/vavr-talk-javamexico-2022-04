@@ -16,7 +16,7 @@ Will create docker container with a PostgreSQL ready to used.
 
 ### Initialization
 
-To create either the user and the database itself it necessary to run the following command: 
+To create either the investingUser and the database itself it necessary to run the following command: 
 
 ```shell
 scripts/init.sh

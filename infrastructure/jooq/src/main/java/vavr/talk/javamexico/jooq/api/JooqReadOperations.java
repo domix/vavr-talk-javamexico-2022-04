@@ -11,6 +11,7 @@ import org.jooq.Table;
 import vavr.talk.javamexico.Failure;
 import vavr.talk.javamexico.jooq.entity.Page;
 import vavr.talk.javamexico.jooq.entity.Pageable;
+import vavr.talk.javamexico.jooq.entity.Slice;
 
 import javax.annotation.Nonnull;
 import java.util.List;
@@ -74,6 +75,21 @@ public interface JooqReadOperations extends JooqContext {
     @Nonnull
     <T, R extends Record> Either<Failure, List<T>> findAll(
         @Nonnull Function<DSLContext, Select<R>> selectQueryAction,
+        @Nonnull RecordMapper<R, T> recordMapper
+    );
+
+    /**
+     * Reads a slice of {@link T} from the result set of the given query
+     *
+     * @param tableType    any {@link Table<R>} type
+     * @param recordMapper {@link RecordMapper} specific type converter
+     * @param <T>          any type
+     * @param <R>          any type that extends from {@link Record}
+     * @return {@link Either} a {@link Failure} or the result of the execution of the query
+     */
+    @Nonnull
+    <T, R extends Record, E extends Table<R>> Either<Failure, Slice<T>> findAll(
+        @Nonnull E tableType,
         @Nonnull RecordMapper<R, T> recordMapper
     );
 
