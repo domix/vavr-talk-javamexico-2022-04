@@ -8,6 +8,8 @@ import java.util.List;
 
 public interface InvestingAccountRepository {
 
+  Either<Failure, InvestingAccount> create(InvestingAccount account);
+
   Either<Failure, List<InvestingAccount>> findAllByUserId(long userId);
 
   Either<Failure, List<InvestingAccount>> findAllActiveAccounts(final long userId);

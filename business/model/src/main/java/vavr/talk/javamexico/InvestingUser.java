@@ -10,19 +10,14 @@ import java.time.OffsetDateTime;
 @Value
 @Builder
 public class InvestingUser {
-
-    Long id;
-
-    @NotBlank
-    String firstName;
-
-    @NotBlank
-    String lastName;
-
-    @Email
-    String email;
-
-    OffsetDateTime createdAt;
-    OffsetDateTime updatedAt;
+  Long id;
+  @NotBlank
+  String firstName;
+  @NotBlank
+  String lastName;
+  @Email
+  String email;
+  OffsetDateTime createdAt;
+  OffsetDateTime updatedAt;
 
 }

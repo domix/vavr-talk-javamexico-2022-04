@@ -44,6 +44,7 @@ class InvestingAccountWithStreamSpecs extends DbRepositorySpecification {
         then:
             stream.isRight()
             stream.get().toList().size() == totalOfAccounts
+            println "records: ${totalOfAccounts}"
     }
 
     def 'Test stream couple all the rows'() {

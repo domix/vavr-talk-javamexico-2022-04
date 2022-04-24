@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.function.Function;
 
 import static vavr.talk.javamexico.persistence.jooq.tables.InvestingAccount.INVESTING_ACCOUNT;
+import static vavr.talk.javamexico.persistence.mapper.InvestingRecordMapper.INSTANCE;
 
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class InvestingAccountDbRepository implements InvestingAccountRepository {
@@ -36,6 +37,15 @@ public class InvestingAccountDbRepository implements InvestingAccountRepository 
     final var writer = TransactionAwareJooqWriteOperations.create(dataSource, DOMAIN_NAME, beanValidator);
     final var reader = TransactionAwareJooqReadOperations.create(dataSource, DOMAIN_NAME);
     return new InvestingAccountDbRepository(reader, writer, beanValidator);
+  }
+
+
+  @Override
+  public Either<Failure, InvestingAccount> create(InvestingAccount account) {
+    return beanValidator.validateBean(account)
+      .map(INSTANCE::from)
+      .flatMap(termRecord ->
+        jooqWriteOperations.save(termRecord, INSTANCE::to));
   }
 
   @Override

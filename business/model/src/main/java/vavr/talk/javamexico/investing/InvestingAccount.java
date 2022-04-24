@@ -2,7 +2,6 @@ package vavr.talk.javamexico.investing;
 
 import jakarta.validation.constraints.PositiveOrZero;
 import lombok.Builder;
-import lombok.ToString;
 import lombok.Value;
 
 import java.math.BigDecimal;
@@ -12,20 +11,23 @@ import java.time.OffsetDateTime;
 @Builder
 public class InvestingAccount {
 
-    Long id;
+  Long id;
 
-    @PositiveOrZero
-    long contractId;
+  @PositiveOrZero
+  long contractId;
 
-    String status;
+  @Builder.Default
+  String status = "open";
 
-    @PositiveOrZero
-    BigDecimal startBalance;
+  @Builder.Default
+  @PositiveOrZero
+  BigDecimal startBalance = BigDecimal.ZERO;
 
-    @PositiveOrZero
-    BigDecimal currentBalance;
+  @Builder.Default
+  @PositiveOrZero
+  BigDecimal currentBalance = BigDecimal.ZERO;
 
-    OffsetDateTime createdAt;
-    OffsetDateTime updatedAt;
+  OffsetDateTime createdAt;
+  OffsetDateTime updatedAt;
 
 }
