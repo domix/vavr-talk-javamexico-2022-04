@@ -47,13 +47,4 @@ class InvestingAccountWithStreamSpecs extends DbRepositorySpecification {
             stream.get().toList().size() == totalOfAccounts
     }
 
-    def 'Test stream couple of hundreds of rows with no condition'() {
-        when:
-            streamOperations.streamAll(INVESTING_ACCOUNT, recordMapper)
-                .get()
-                .forEach({ account -> println account })
-        then:
-            true
-    }
-
 }
