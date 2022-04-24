@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public class V2__AddUsers extends BaseJavaMigration {
-  private static Faker faker = Faker.instance();
+  private static final Faker faker = Faker.instance();
 
   @Override
   public void migrate(Context context) throws Exception {
