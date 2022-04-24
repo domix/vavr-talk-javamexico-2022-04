@@ -9,7 +9,7 @@ import java.time.OffsetDateTime;
 
 @Value
 @Builder
-public class User {
+public class InvestingUser {
 
     Long id;
 

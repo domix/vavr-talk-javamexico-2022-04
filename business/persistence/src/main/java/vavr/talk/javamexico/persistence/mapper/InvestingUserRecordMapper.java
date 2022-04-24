@@ -5,8 +5,8 @@ import org.mapstruct.NullValueCheckStrategy;
 import org.mapstruct.NullValuePropertyMappingStrategy;
 import org.mapstruct.ReportingPolicy;
 import org.mapstruct.factory.Mappers;
-import vavr.talk.javamexico.User;
-import vavr.talk.javamexico.persistence.jooq.tables.records.UserRecord;
+import vavr.talk.javamexico.InvestingUser;
+import vavr.talk.javamexico.persistence.jooq.tables.records.InvestingUserRecord;
 
 @Mapper(
     nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.SET_TO_DEFAULT,
@@ -15,10 +15,12 @@ import vavr.talk.javamexico.persistence.jooq.tables.records.UserRecord;
     unmappedSourcePolicy = ReportingPolicy.IGNORE,
     uses = DateTypesConverter.class
 )
-public interface UserRecordMapper {
-    UserRecordMapper INSTANCE = Mappers.getMapper(UserRecordMapper.class);
+public interface InvestingUserRecordMapper {
 
-    UserRecord from(User user);
+    InvestingUserRecordMapper INSTANCE = Mappers.getMapper(InvestingUserRecordMapper.class);
 
-    User to(UserRecord userRecord);
+    InvestingUserRecord from(InvestingUser investingUser);
+
+    InvestingUser to(InvestingUserRecord investingUserRecord);
+
 }

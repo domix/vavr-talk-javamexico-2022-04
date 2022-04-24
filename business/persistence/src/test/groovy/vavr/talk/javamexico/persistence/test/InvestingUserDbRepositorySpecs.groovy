@@ -4,14 +4,14 @@ import io.micronaut.test.extensions.spock.annotation.MicronautTest
 import io.vavr.control.Either
 import jakarta.inject.Inject
 import vavr.talk.javamexico.Failure
-import vavr.talk.javamexico.User
-import vavr.talk.javamexico.persistence.db.repository.UserDbRepository
+import vavr.talk.javamexico.InvestingUser
+import vavr.talk.javamexico.persistence.db.repository.InvestingUserDbRepository
 
 @MicronautTest
-class UserDbRepositorySpecs extends DbRepositorySpecification {
+class InvestingUserDbRepositorySpecs extends DbRepositorySpecification {
 
     @Inject
-    UserDbRepository userDbRepository
+    InvestingUserDbRepository investingUserInterestDbRepository
 
     def 'Test save user interest some '() {
         given:
@@ -19,13 +19,13 @@ class UserDbRepositorySpecs extends DbRepositorySpecification {
                 user(it, testCase)
             }
         when:
-            def savedUsers = users.collect { userDbRepository.save(it) }
+            def savedUsers = users.collect { investingUserInterestDbRepository.save(it) }
 
         then:
-            def saved = savedUsers.collect { Either<Failure, User> saved -> saved.get() }
+            def saved = savedUsers.collect { Either<Failure, InvestingUser> saved -> saved.get() }
 
             saved
-                .findAll { User user ->
+                .findAll { InvestingUser user ->
                     user.id
                         && user.firstName in users.firstName
                         && user.lastName in users.lastName
@@ -35,7 +35,7 @@ class UserDbRepositorySpecs extends DbRepositorySpecification {
 
         when: "Now let's get them one by one"
             def read = savedUsers.collect {
-                userDbRepository.get(it.get().id)
+                investingUserInterestDbRepository.get(it.get().id)
             }
 
         then:
@@ -53,8 +53,8 @@ class UserDbRepositorySpecs extends DbRepositorySpecification {
             'success' | _
     }
 
-    static User user(final long index, final String testCase) {
-        User.builder()
+    static InvestingUser user(final long index, final String testCase) {
+        InvestingUser.builder()
             .firstName("${ testCase }-${ index }")
             .lastName("${ testCase }-${ index }")
             .build()
