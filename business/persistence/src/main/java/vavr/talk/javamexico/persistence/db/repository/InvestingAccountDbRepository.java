@@ -1,8 +1,11 @@
 package vavr.talk.javamexico.persistence.db.repository;
 
 import io.vavr.control.Either;
+import io.vavr.control.Option;
+import io.vavr.control.Try;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
+import org.jooq.Batch;
 import org.jooq.DSLContext;
 import org.jooq.Select;
 import org.jooq.UpdateReturningStep;
@@ -21,6 +24,7 @@ import vavr.talk.javamexico.validation.BeanValidator;
 import javax.sql.DataSource;
 import java.time.OffsetDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
@@ -94,6 +98,11 @@ public class InvestingAccountDbRepository implements InvestingAccountRepository 
         .set(INVESTING_ACCOUNT.CURRENT_BALANCE, investingAccount.getCurrentBalance().toPlainString())
         .set(INVESTING_ACCOUNT.UPDATED_AT, defaultIfNull(investingAccount.getUpdatedAt(), OffsetDateTime.now()));
     return jooqWriteOperations.updateAndMap(updater, INSTANCE::to);
+  }
+
+  @Override
+  public Optional<Failure> updateBatch(final List<InvestingAccount> batch) {
+    return jooqWriteOperations.batchUpdate(batch, INSTANCE::from);
   }
 
 }
