@@ -13,6 +13,5 @@ public class V3__AddContracts extends BaseJavaMigration {
       "insert into investing_contract (contract_name, currency, annual_interest_rate) values %s;",
       20,
       DataUtil::contractDataLine);
-
   }
 }

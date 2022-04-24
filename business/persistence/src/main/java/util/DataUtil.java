@@ -25,10 +25,10 @@ public class DataUtil {
 
   public static String contractDataLine() {
 
-    String name = escapeSomeCharsIfNeeded(faker.commerce().productName());
-    Random rand = new Random();
+    final var name = escapeSomeCharsIfNeeded(faker.commerce().productName());
+    final var rand = new Random();
     final var randomElement = currencies.get(rand.nextInt(currencies.size()));
-    String price = faker.commerce().price(1, 15);
+    final var price = faker.commerce().price(1, 15);
 
     return "('%s', '%s', '%s')".formatted(name, randomElement, price);
   }

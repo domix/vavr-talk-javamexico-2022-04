@@ -101,7 +101,7 @@ flyway {
   user = 'admin'
   password = 'password'
   schemas = ['public']
-  locations = ['classpath:db/migration']
+  locations = ['classpath:db/migration'] //needed to be aware of Java based migrations
   skipDefaultCallbacks = true
 }
 

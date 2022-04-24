@@ -15,5 +15,4 @@ public class V2__AddUsers extends BaseJavaMigration {
       DataUtil::userDataLine
     );
   }
-
 }
