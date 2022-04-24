@@ -7,6 +7,7 @@ import vavr.talk.javamexico.InvestingUser;
 import vavr.talk.javamexico.business.interest.InterestCalculation;
 import vavr.talk.javamexico.persistence.db.repository.InvestingAccountDbRepository;
 import vavr.talk.javamexico.persistence.db.repository.InvestingUserDbRepository;
+import vavr.talk.javamexico.repository.InvestingAccountRepository;
 
 import java.math.BigDecimal;
 import java.util.Calendar;
@@ -15,7 +16,7 @@ import java.util.GregorianCalendar;
 @RequiredArgsConstructor
 public class DefaultInterestCalculation implements InterestCalculation {
   private final InvestingUserDbRepository investingUserDbRepository;
-  private final InvestingAccountDbRepository accountDbRepository;
+  private final InvestingAccountRepository accountDbRepository;
 
   @SneakyThrows
   @Override

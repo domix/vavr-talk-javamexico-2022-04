@@ -25,27 +25,28 @@ import static vavr.talk.javamexico.persistence.jooq.tables.InvestingAccount.INVE
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class InvestingAccountDbRepository implements InvestingAccountRepository {
 
-    static final String DOMAIN_NAME = INVESTING_ACCOUNT.getName();
+  static final String DOMAIN_NAME = INVESTING_ACCOUNT.getName();
 
-    private final JooqReadOperations jooqReadOperations;
-    private final JooqWriteOperations jooqWriteOperations;
-    private final BeanValidator<?> beanValidator;
+  private final JooqReadOperations jooqReadOperations;
+  private final JooqWriteOperations jooqWriteOperations;
+  private final BeanValidator<?> beanValidator;
 
-    public static InvestingAccountDbRepository create(final DataSource dataSource,
-                                                      final BeanValidator<?> beanValidator) {
-        final var writer = TransactionAwareJooqWriteOperations.create(dataSource, DOMAIN_NAME, beanValidator);
-        final var reader = TransactionAwareJooqReadOperations.create(dataSource, DOMAIN_NAME);
-        return new InvestingAccountDbRepository(reader, writer, beanValidator);
-    }
+  public static InvestingAccountDbRepository create(final DataSource dataSource,
+                                                    final BeanValidator<?> beanValidator) {
+    final var writer = TransactionAwareJooqWriteOperations.create(dataSource, DOMAIN_NAME, beanValidator);
+    final var reader = TransactionAwareJooqReadOperations.create(dataSource, DOMAIN_NAME);
+    return new InvestingAccountDbRepository(reader, writer, beanValidator);
+  }
 
-    @Override
-    public Either<Failure, List<InvestingAccount>> findAllByUserId(final long userId) {
-        final Function<DSLContext, Select<InvestingAccountRecord>> query =
-            context -> context.selectFrom(INVESTING_ACCOUNT)
-                .where(INVESTING_ACCOUNT.USER_ID.eq(userId));
-        return jooqReadOperations.findAll(query, InvestingRecordMapper.INSTANCE::to);
-    }
+  @Override
+  public Either<Failure, List<InvestingAccount>> findAllByUserId(final long userId) {
+    final Function<DSLContext, Select<InvestingAccountRecord>> query =
+      context -> context.selectFrom(INVESTING_ACCOUNT)
+        .where(INVESTING_ACCOUNT.USER_ID.eq(userId));
+    return jooqReadOperations.findAll(query, InvestingRecordMapper.INSTANCE::to);
+  }
 
+  @Override
   public Either<Failure, List<InvestingAccount>> findAllActiveAccounts(final long userId) {
     final Function<DSLContext, Select<InvestingAccountRecord>> query =
       context -> context.selectFrom(INVESTING_ACCOUNT)
