@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public class DataUtil {
-  private static final Faker faker = Faker.instance();
+  public static final Faker faker = Faker.instance();
   private static final List<String> currencies = List.of("mxn", "usd", "ars");
 
   public static String userDataLine() {
