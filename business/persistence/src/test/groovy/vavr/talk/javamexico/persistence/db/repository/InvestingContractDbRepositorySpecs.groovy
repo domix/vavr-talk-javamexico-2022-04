@@ -13,7 +13,7 @@ class InvestingContractDbRepositorySpecs extends DbRepositorySpecification {
     InvestingContractDbRepository investingContractDbRepository
 
     def setup() {
-        investingContractDbRepository = InvestingContractDbRepository.create(DbRepositorySpecification.dataSource, DbRepositorySpecification.beanValidator)
+        investingContractDbRepository = InvestingContractDbRepository.create(dataSource, beanValidator)
     }
 
     def 'Test save investing term for case #testCase'() {

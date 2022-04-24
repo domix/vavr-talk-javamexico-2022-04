@@ -4,7 +4,6 @@ import io.vavr.control.Either
 import spock.lang.Ignore
 import vavr.talk.javamexico.Failure
 import vavr.talk.javamexico.InvestingUser
-import vavr.talk.javamexico.persistence.db.repository.InvestingUserDbRepository
 import vavr.talk.javamexico.persistence.test.DbRepositorySpecification
 
 @Ignore
@@ -13,7 +12,7 @@ class InvestingUserDbRepositorySpecs extends DbRepositorySpecification {
     InvestingUserDbRepository investingUserInterestDbRepository
 
     def setup() {
-        investingUserInterestDbRepository = InvestingUserDbRepository.create(DbRepositorySpecification.dataSource, DbRepositorySpecification.beanValidator)
+        investingUserInterestDbRepository = InvestingUserDbRepository.create(dataSource, beanValidator)
     }
 
     def 'Test save user interest some '() {

@@ -1,6 +1,5 @@
 package vavr.talk.javamexico.jooq.stream;
 
-import io.vavr.collection.Stream;
 import io.vavr.control.Either;
 import io.vavr.control.Try;
 import org.jooq.Condition;
@@ -14,6 +13,7 @@ import vavr.talk.javamexico.jooq.factory.JooqOperationFailures;
 import vavr.talk.javamexico.jooq.factory.TransactionAwareJooqContextFactory;
 
 import javax.sql.DataSource;
+import java.util.stream.Stream;
 
 public final class JooqReadStreamOperations implements JooqStreamOperations {
 
@@ -41,7 +41,7 @@ public final class JooqReadStreamOperations implements JooqStreamOperations {
 
     public static JooqReadStreamOperations create(final DataSource dataSource, final String domainName) {
         final var dslContext = TransactionAwareJooqContextFactory.createContext(dataSource);
-        return new JooqReadStreamOperations(dslContext, DEFAULT_DOMAIN_NAME);
+        return new JooqReadStreamOperations(dslContext, domainName);
     }
 
     @Override
@@ -55,7 +55,19 @@ public final class JooqReadStreamOperations implements JooqStreamOperations {
                 .stream()
                 .map(recordMapper::map)
             )
-            .mapTry(Stream::ofAll)
+            .toEither()
+            .mapLeft(throwable -> jooqOperationFailures.createFailure(throwable, STREAM));
+    }
+
+    @Override
+    public <E, R extends Record, T extends Table<R>> Either<Failure, Stream<E>> streamAll(
+        final T tableType,
+        final RecordMapper<R, E> recordMapper
+    ) {
+        return Try.of(() -> dslContext.selectFrom(tableType)
+                .stream()
+                .map(recordMapper::map)
+            )
             .toEither()
             .mapLeft(throwable -> jooqOperationFailures.createFailure(throwable, STREAM));
     }
