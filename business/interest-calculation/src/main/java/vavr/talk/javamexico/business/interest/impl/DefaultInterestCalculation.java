@@ -91,23 +91,7 @@ public class DefaultInterestCalculation implements InterestCalculation {
 
   private void calculateInterestFor(Tuple3<InvestingUser, List<InvestingAccount>, InterestCalculationContext> data) {
     final var movements = data._2.stream()
-      .map(account -> {
-        final var investingContract = contractFor(account, data._3);
-
-        if (investingContract.isEmpty()) {
-          log.warn("No se encontro contrato de la cuenta {}", account.getId());
-        }
-
-        return investingContract
-          .map(contract -> {
-            final var amount = computeInterestFor(contract, account);
-            return InvestingContractMovement.builder()
-              .accountId(account.getId())
-              .amount(amount)
-              .movementType("interest")
-              .build();
-          });
-      })
+      .map(account -> createMovementIfNeeded(data, account))
       .filter(Optional::isPresent)
       .map(Optional::get)
       .toList();
@@ -125,5 +109,23 @@ public class DefaultInterestCalculation implements InterestCalculation {
           .multiply(new BigDecimal(contract.getAnnualInterestRate()), mathContext)
           .divide(new BigDecimal("100.00"), mathContext);
       });*/
+  }
+
+  private Optional<InvestingContractMovement> createMovementIfNeeded(Tuple3<InvestingUser, List<InvestingAccount>, InterestCalculationContext> data, InvestingAccount account) {
+    final var investingContract = contractFor(account, data._3);
+
+    if (investingContract.isEmpty()) {
+      log.warn("No se encontro contrato de la cuenta {}", account.getId());
+    }
+
+    return investingContract
+      .map(contract -> {
+        final var amount = computeInterestFor(contract, account);
+        return InvestingContractMovement.builder()
+          .accountId(account.getId())
+          .amount(amount)
+          .movementType("interest")
+          .build();
+      });
   }
 }
