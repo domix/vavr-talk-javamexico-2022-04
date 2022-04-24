@@ -8,7 +8,7 @@ create table investing_user
     updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE "investing_contract"
+CREATE TABLE investing_contract
 (
     id                   BIGSERIAL PRIMARY KEY,
     contract_name        VARCHAR(30) NOT NULL,
@@ -18,7 +18,7 @@ CREATE TABLE "investing_contract"
     updated_at           TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE "investing_account"
+CREATE TABLE investing_account
 (
     id              BIGSERIAL PRIMARY KEY,
     contract_id     BIGINT      NOT NULL,
@@ -37,7 +37,7 @@ CREATE TABLE "investing_account"
             REFERENCES investing_user (id)
 );
 
-CREATE TABLE "investing_contract_movement"
+CREATE TABLE investing_contract_movement
 (
     id            BIGSERIAL PRIMARY KEY,
     account_id    BIGINT      NOT NULL,
