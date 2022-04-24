@@ -17,4 +17,9 @@ public interface JooqStreamOperations extends JooqContext {
         RecordMapper<R, E> recordMapper
     );
 
+    <E, R extends Record, T extends Table<R>> Either<Failure, Stream<E>> streamAll(
+        T tableType,
+        RecordMapper<R, E> recordMapper
+    );
+
 }

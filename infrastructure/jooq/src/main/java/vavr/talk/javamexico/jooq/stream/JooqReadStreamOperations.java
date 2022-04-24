@@ -59,4 +59,17 @@ public final class JooqReadStreamOperations implements JooqStreamOperations {
             .mapLeft(throwable -> jooqOperationFailures.createFailure(throwable, STREAM));
     }
 
+    @Override
+    public <E, R extends Record, T extends Table<R>> Either<Failure, Stream<E>> streamAll(
+        final T tableType,
+        final RecordMapper<R, E> recordMapper
+    ) {
+        return Try.of(() -> dslContext.selectFrom(tableType)
+                .stream()
+                .map(recordMapper::map)
+            )
+            .toEither()
+            .mapLeft(throwable -> jooqOperationFailures.createFailure(throwable, STREAM));
+    }
+
 }
