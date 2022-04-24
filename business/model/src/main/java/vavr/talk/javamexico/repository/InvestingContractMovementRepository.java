@@ -5,6 +5,7 @@ import vavr.talk.javamexico.Failure;
 import vavr.talk.javamexico.investing.InvestingContractMovement;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Stream;
 
 public interface InvestingContractMovementRepository {
@@ -18,5 +19,7 @@ public interface InvestingContractMovementRepository {
   Either<Failure, Stream<InvestingContractMovement>> streamAllByAccountId(long accountId);
 
   Either<Failure, InvestingContractMovement> update(InvestingContractMovement contractMovement);
+
+  Optional<Failure> insertBatch(List<InvestingContractMovement> batch);
 
 }

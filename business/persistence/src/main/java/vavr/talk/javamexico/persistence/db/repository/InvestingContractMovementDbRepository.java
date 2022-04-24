@@ -20,6 +20,7 @@ import vavr.talk.javamexico.validation.BeanValidator;
 
 import javax.sql.DataSource;
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
@@ -79,6 +80,11 @@ public class InvestingContractMovementDbRepository implements InvestingContractM
         .set(INVESTING_CONTRACT_MOVEMENT.AMOUNT, contractMovement.getAmount().toPlainString())
         .set(INVESTING_CONTRACT_MOVEMENT.MOVEMENT_TYPE, contractMovement.getMovementType());
     return writeOperations.updateAndMap(updater, INSTANCE::to);
+  }
+
+  @Override
+  public Optional<Failure> insertBatch(final List<InvestingContractMovement> batch) {
+    return writeOperations.batchInsert(batch, INSTANCE::from);
   }
 
 }

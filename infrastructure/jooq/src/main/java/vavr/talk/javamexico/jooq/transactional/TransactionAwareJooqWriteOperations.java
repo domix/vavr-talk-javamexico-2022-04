@@ -8,12 +8,14 @@ import io.vavr.control.Option;
 import io.vavr.control.Try;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
+import org.jooq.Batch;
 import org.jooq.DSLContext;
 import org.jooq.DeleteReturningStep;
 import org.jooq.Record;
 import org.jooq.RecordMapper;
 import org.jooq.Table;
 import org.jooq.TableField;
+import org.jooq.UpdatableRecord;
 import org.jooq.UpdateReturningStep;
 import vavr.talk.javamexico.Failure;
 import vavr.talk.javamexico.jooq.api.JooqWriteOperations;
@@ -26,6 +28,7 @@ import javax.annotation.Nonnull;
 import javax.sql.DataSource;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
@@ -39,6 +42,10 @@ public class TransactionAwareJooqWriteOperations implements JooqWriteOperations 
     private final static String UPDATE = "update";
     private final static String SAVE = "save";
     private final static String DELETE = "delete";
+
+    private final static String BATCH_UPDATE = "batch_update";
+
+    private final static String BATCH_INSERT = "batch_insert";
     private final static String EXECUTE_TRANSACTION = "execute-transaction";
 
     private final DSLContext dslContext;
@@ -131,6 +138,48 @@ public class TransactionAwareJooqWriteOperations implements JooqWriteOperations 
     public <T, R extends Record> Either<Failure, T> update(final Function<DSLContext, UpdateReturningStep<R>> updateStatement,
                                                            final Class<T> returnTypeClass) {
         return executeUpdate(updateStatement, record -> record.into(returnTypeClass));
+    }
+
+    @Override
+    public <T, R extends UpdatableRecord<R>> Optional<Failure> batchUpdate(final List<T> records,
+                                                                           final Function<T, R> recordMapper) {
+      return Option.when(!records.isEmpty(), records.stream()
+          .map(recordMapper)
+          .toList()
+        )
+        .fold(() -> {
+            final var failure = jooqOperationFailures.createFailure(BATCH_UPDATE, "empty-batch",
+              "The batch to update cannot be empty");
+            return Optional.of(failure);
+          },
+          batch -> Try.of(() -> dslContext.batchUpdate(batch))
+            .andThenTry(Batch::execute)
+            //Honestly we don't care about the whole return statement, either we could validate the array
+            .map(__ -> Option.<Failure>none())
+            .getOrElseGet(throwable -> Option.of(Failure.of(throwable)))
+            .toJavaOptional()
+        );
+    }
+
+    @Override
+    public <T, R extends UpdatableRecord<R>> Optional<Failure> batchInsert(final List<T> records,
+                                                                           final Function<T, R> recordMapper) {
+      return Option.when(!records.isEmpty(), records.stream()
+          .map(recordMapper)
+          .toList()
+        )
+        .fold(() -> {
+            final var failure = jooqOperationFailures.createFailure(BATCH_INSERT, "empty-batch",
+              "The batch to insert cannot be empty");
+            return Optional.of(failure);
+          },
+          batch -> Try.of(() -> dslContext.batchInsert(batch))
+            .andThenTry(Batch::execute)
+            //Honestly we don't care about the whole return statement, either we could validate the array
+            .map(__ -> Option.<Failure>none())
+            .getOrElseGet(throwable -> Option.of(Failure.of(throwable)))
+            .toJavaOptional()
+        );
     }
 
     @Override

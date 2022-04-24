@@ -8,10 +8,12 @@ import org.jooq.DeleteReturningStep;
 import org.jooq.Record;
 import org.jooq.RecordMapper;
 import org.jooq.Table;
+import org.jooq.UpdatableRecord;
 import org.jooq.UpdateReturningStep;
 import vavr.talk.javamexico.Failure;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
@@ -49,6 +51,9 @@ public interface JooqWriteOperations extends JooqContext {
                                                                       RecordMapper<R, T> recordMapper,
                                                                       Class<?>... validationGroups);
 
+  <T, R extends UpdatableRecord<R>> Optional<Failure> batchInsert(List<T> records,
+                                                                  Function<T, R> recordMapper);
+
     /**
      * Executes the given query returning the element created
      *
@@ -85,6 +90,8 @@ public interface JooqWriteOperations extends JooqContext {
      */
     <T, R extends Record> Either<Failure, T> update(Function<DSLContext, UpdateReturningStep<R>> updateStatement,
                                                     Class<T> returnTypeClass);
+
+  <T, R extends UpdatableRecord<R>> Optional<Failure> batchUpdate(List<T> records, Function<T, R> recordMapper);
 
     /**
      * Executes the given query returning the element created
