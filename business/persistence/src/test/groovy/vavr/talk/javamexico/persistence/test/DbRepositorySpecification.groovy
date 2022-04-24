@@ -24,10 +24,12 @@ class DbRepositorySpecification extends Specification {
 
     def setupSpec() {
         dataSource = BasicDataSourceFactory.createDataSource(properties)
+    }
+
+    static def initFlyway() {
         def configuration = new ClassicConfiguration()
         configuration.setDataSource(dataSource)
         configuration.setLocations(new Location("classpath:db/migration"))
     }
-
 }
 
