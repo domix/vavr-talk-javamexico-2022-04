@@ -1,4 +1,4 @@
-create table user
+create table investing_user
 (
     id         BIGSERIAL PRIMARY KEY,
     first_name VARCHAR(100),
@@ -34,7 +34,7 @@ CREATE TABLE investing_account
             REFERENCES investing_contract (id),
     CONSTRAINT fk_user
         FOREIGN KEY (user_id)
-            REFERENCES user (id)
+            REFERENCES investing_user (id)
 );
 
 CREATE TABLE investing_contract_movement
