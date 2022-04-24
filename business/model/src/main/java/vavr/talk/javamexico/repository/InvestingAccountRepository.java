@@ -23,6 +23,4 @@ public interface InvestingAccountRepository {
 
   Either<Failure, Stream<InvestingAccount>> streamAllActiveAccounts(long userId);
 
-  Either<Failure, InvestingAccount> update(InvestingAccount investingAccount);
-
 }
