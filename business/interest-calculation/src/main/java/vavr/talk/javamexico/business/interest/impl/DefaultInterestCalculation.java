@@ -4,6 +4,7 @@ import io.vavr.Tuple;
 import io.vavr.Tuple2;
 import io.vavr.Tuple3;
 import io.vavr.control.Either;
+import io.vavr.control.Option;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -83,10 +84,10 @@ public class DefaultInterestCalculation implements InterestCalculation {
       .divide(new BigDecimal("100.00"), mathContext);
   }
 
-  private Optional<InvestingContract> contractFor(InvestingAccount account, InterestCalculationContext context) {
-    return context.getContracts().stream()
+  private Option<InvestingContract> contractFor(InvestingAccount account, InterestCalculationContext context) {
+    return Option.ofOptional(context.getContracts().stream()
       .filter(contract -> Objects.equals(contract.getId(), account.getContractId()))
-      .findFirst();
+      .findFirst());
   }
 
   private void calculateInterestFor(Tuple3<InvestingUser, List<InvestingAccount>, InterestCalculationContext> data) {
@@ -95,37 +96,19 @@ public class DefaultInterestCalculation implements InterestCalculation {
       .filter(Optional::isPresent)
       .map(Optional::get)
       .toList();
-
-
-    //final var savedContract = contractRepository.get(account.getContractId());
-    /*
-    return savedContract.fold(__ -> BigDecimal.ZERO,
-
-      contract -> {
-        final var mathContext = new MathContext(2);
-        final var balance = (BigDecimal.ZERO.equals(account.getCurrentBalance())) ?
-          account.getStartBalance() : account.getCurrentBalance();
-        return balance
-          .multiply(new BigDecimal(contract.getAnnualInterestRate()), mathContext)
-          .divide(new BigDecimal("100.00"), mathContext);
-      });*/
   }
 
-  private Optional<InvestingContractMovement> createMovementIfNeeded(Tuple3<InvestingUser, List<InvestingAccount>, InterestCalculationContext> data, InvestingAccount account) {
-    final var investingContract = contractFor(account, data._3);
-
-    if (investingContract.isEmpty()) {
-      log.warn("No se encontro contrato de la cuenta {}", account.getId());
-    }
-
-    return investingContract
-      .map(contract -> {
+  private Optional<InvestingContractMovement> createMovementIfNeeded(
+    Tuple3<InvestingUser, List<InvestingAccount>, InterestCalculationContext> data, InvestingAccount account
+  ) {
+    return contractFor(account, data._3)
+      .onEmpty(() -> log.warn("No se encontro contrato de la cuenta {}", account.getId())).map(contract -> {
         final var amount = computeInterestFor(contract, account);
         return InvestingContractMovement.builder()
           .accountId(account.getId())
           .amount(amount)
           .movementType("interest")
           .build();
-      });
+      }).toJavaOptional();
   }
 }
