@@ -36,7 +36,7 @@ class InvestingUserDbRepositorySpecs extends DbRepositorySpecification {
 
         when: "Now let's get them one by one"
             def read = savedUsers.collect {
-                investingUserRepository.get(it.get().id)
+                investingUserRepository.find(it.get().id)
             }
 
         then:
