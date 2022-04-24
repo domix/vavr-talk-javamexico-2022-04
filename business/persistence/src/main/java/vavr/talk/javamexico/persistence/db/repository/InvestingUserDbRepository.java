@@ -13,6 +13,7 @@ import vavr.talk.javamexico.jooq.transactional.TransactionAwareJooqReadOperation
 import vavr.talk.javamexico.jooq.transactional.TransactionAwareJooqWriteOperations;
 import vavr.talk.javamexico.persistence.jooq.tables.records.InvestingUserRecord;
 import vavr.talk.javamexico.persistence.mapper.InvestingUserRecordMapper;
+import vavr.talk.javamexico.repository.InvestingUserRepository;
 import vavr.talk.javamexico.validation.BeanValidator;
 
 import javax.sql.DataSource;
@@ -22,7 +23,7 @@ import static vavr.talk.javamexico.persistence.jooq.tables.InvestingUser.INVESTI
 
 
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
-public class InvestingUserDbRepository {
+public class InvestingUserDbRepository implements InvestingUserRepository {
 
     static final String DOMAIN_NAME = INVESTING_USER.getName();
     private final JooqWriteOperations writeOperations;
@@ -37,11 +38,14 @@ public class InvestingUserDbRepository {
         return new InvestingUserDbRepository(writer, reader, beanValidator);
     }
 
+    @Override
     public Either<Failure, InvestingUser> save(final InvestingUser investingUser) {
         return beanValidator.validateBean(investingUser)
             .map(InvestingUserRecordMapper.INSTANCE::from)
             .flatMap(record -> writeOperations.save(record, InvestingUserRecordMapper.INSTANCE::to));
     }
+
+    @Override
 
     public Either<Failure, InvestingUser> get(final long userId) {
         final Function<DSLContext, Select<InvestingUserRecord>> query =
