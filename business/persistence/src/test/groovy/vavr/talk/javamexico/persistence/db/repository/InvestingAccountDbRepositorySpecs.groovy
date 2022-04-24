@@ -31,9 +31,7 @@ class InvestingAccountDbRepositorySpecs extends DbRepositorySpecification {
 
     contractRepository.findAll()
 
-    savedUser.map( user -> {
 
-    })
 
     //InvestingAccount.builder().contractId(1l).
     //investingAccountRepository.create()
