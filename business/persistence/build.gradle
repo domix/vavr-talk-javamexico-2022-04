@@ -53,7 +53,7 @@ dependencies {
 
 idea {
   module {
-    sourceDirs += new File("${ project.projectDir }/gensrc/jooq/main")
+    sourceDirs += new File("${ project.projectDir }/build/generated-src/jooq/main")
   }
 }
 
@@ -83,7 +83,6 @@ jooq {
           }
           target {
             packageName = 'vavr.talk.javamexico.persistence.jooq'
-            directory = 'gensrc/jooq/main'
           }
           strategy.name = 'org.jooq.codegen.DefaultGeneratorStrategy'
         }
@@ -116,5 +115,6 @@ flyway {
   skipDefaultCallbacks = true
 }
 
+processResources.dependsOn generateJooq
 flywayInfo.dependsOn classes
 flywayMigrate.dependsOn classes

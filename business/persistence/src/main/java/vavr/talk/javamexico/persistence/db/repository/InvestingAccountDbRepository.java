@@ -46,4 +46,12 @@ public class InvestingAccountDbRepository implements InvestingAccountRepository 
         return jooqReadOperations.findAll(query, InvestingRecordMapper.INSTANCE::to);
     }
 
+  public Either<Failure, List<InvestingAccount>> findAllActiveAccounts(final long userId) {
+    final Function<DSLContext, Select<InvestingAccountRecord>> query =
+      context -> context.selectFrom(INVESTING_ACCOUNT)
+        .where(INVESTING_ACCOUNT.USER_ID.eq(userId))
+        .and(INVESTING_ACCOUNT.STATUS.eq("open"));
+    return jooqReadOperations.findAll(query, InvestingRecordMapper.INSTANCE::to);
+  }
+
 }

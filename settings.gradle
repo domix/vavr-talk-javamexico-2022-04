@@ -17,6 +17,7 @@ include('infrastructure:mn-utils')
 //business libs
 include('business:api')
 include('business:model')
+include('business:interest-calculation')
 
 //business apps
 include('business:mn-app')
