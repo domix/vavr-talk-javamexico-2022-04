@@ -2,7 +2,7 @@ package vavr.talk.javamexico.repository;
 
 import io.vavr.control.Either;
 import vavr.talk.javamexico.Failure;
-import vavr.talk.javamexico.InvestingUser;
+import vavr.talk.javamexico.investing.InvestingUser;
 
 import java.util.List;
 import java.util.stream.Stream;

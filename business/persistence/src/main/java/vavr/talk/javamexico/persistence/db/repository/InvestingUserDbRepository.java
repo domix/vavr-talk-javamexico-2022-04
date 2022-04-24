@@ -7,7 +7,7 @@ import org.jooq.DSLContext;
 import org.jooq.Select;
 import org.jooq.UpdateReturningStep;
 import vavr.talk.javamexico.Failure;
-import vavr.talk.javamexico.InvestingUser;
+import vavr.talk.javamexico.investing.InvestingUser;
 import vavr.talk.javamexico.jooq.api.JooqReadOperations;
 import vavr.talk.javamexico.jooq.api.JooqStreamOperations;
 import vavr.talk.javamexico.jooq.api.JooqWriteOperations;

@@ -1,13 +1,10 @@
 package vavr.talk.javamexico.business.interest;
 
-import vavr.talk.javamexico.InvestingUser;
-import vavr.talk.javamexico.investing.InvestingAccount;
-import vavr.talk.javamexico.investing.InvestingContract;
+import vavr.talk.javamexico.Failure;
 
-import java.math.BigDecimal;
+import java.util.Optional;
 
 public interface InterestCalculation {
-  //BigDecimal interestFor(InvestingAccount account, InvestingContract contract);
-  BigDecimal interestFor(InvestingUser user);
+  Optional<Failure> process(InterestCalculationContext context, Long userId);
 
 }

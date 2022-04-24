@@ -2,7 +2,7 @@ package vavr.talk.javamexico.business.interest.impl
 
 import org.jooq.RecordMapper
 import spock.lang.Specification
-import vavr.talk.javamexico.InvestingUser
+import vavr.talk.javamexico.investing.InvestingUser
 import vavr.talk.javamexico.business.interest.InterestCalculation
 import vavr.talk.javamexico.jooq.api.JooqStreamOperations
 import vavr.talk.javamexico.jooq.stream.JooqReadStreamOperations
