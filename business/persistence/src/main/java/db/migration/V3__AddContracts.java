@@ -9,6 +9,11 @@ public class V3__AddContracts extends BaseJavaMigration {
 
   @Override
   public void migrate(Context context) throws Exception {
-    DataUtil.populate(context, "insert into investing_contract (contract_name, currency, annual_interest_rate) values %s;", CONTRACT_COUNT, DataUtil::contractDataLine);
+    DataUtil.populate(
+      context,
+      "insert into investing_contract (contract_name, currency, annual_interest_rate) values %s;",
+      CONTRACT_COUNT,
+      DataUtil::contractDataLine
+    );
   }
 }
