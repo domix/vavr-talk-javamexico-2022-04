@@ -11,7 +11,7 @@ public interface InvestingUserRepository {
 
   Either<Failure, InvestingUser> save(InvestingUser investingUser);
 
-  Either<Failure, InvestingUser> get(long userId);
+  Either<Failure, InvestingUser> find(long userId);
 
   Either<Failure, List<InvestingUser>> findAll();
 

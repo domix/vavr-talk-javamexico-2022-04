@@ -15,7 +15,7 @@ public interface InvestingAccountRepository {
 
   Either<Failure, InvestingAccount> save(InvestingAccount investingAccount);
 
-  Either<Failure, InvestingAccount> get(long id);
+  Either<Failure, InvestingAccount> find(long id);
 
   Either<Failure, Stream<InvestingAccount>> streamAllActiveAccounts(long userId);
 

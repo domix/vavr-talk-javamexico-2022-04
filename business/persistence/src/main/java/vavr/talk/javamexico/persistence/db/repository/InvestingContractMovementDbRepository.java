@@ -51,7 +51,7 @@ public class InvestingContractMovementDbRepository implements InvestingContractM
   }
 
   @Override
-  public Either<Failure, InvestingContractMovement> get(final long id) {
+  public Either<Failure, InvestingContractMovement> find(final long id) {
     final Function<DSLContext, Select<InvestingContractMovementRecord>> query =
       context -> context.selectFrom(INVESTING_CONTRACT_MOVEMENT)
         .where(INVESTING_CONTRACT_MOVEMENT.ID.eq(id));

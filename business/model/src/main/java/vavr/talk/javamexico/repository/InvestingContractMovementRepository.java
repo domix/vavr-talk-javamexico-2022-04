@@ -11,7 +11,7 @@ public interface InvestingContractMovementRepository {
 
   Either<Failure, InvestingContractMovement> save(InvestingContractMovement contractMovement);
 
-  Either<Failure, InvestingContractMovement> get(long id);
+  Either<Failure, InvestingContractMovement> find(long id);
 
   Either<Failure, List<InvestingContractMovement>> findAllByAccountId(long accountId);
 

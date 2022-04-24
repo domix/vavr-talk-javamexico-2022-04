@@ -41,7 +41,7 @@ public class VavrInterestCalculation implements InterestCalculation {
   }
 
   private BigDecimal calculateInterestForContractAndAccount(final InvestingAccount account) {
-    final var savedContract = contractRepository.get(account.getContractId());
+    final var savedContract = contractRepository.find(account.getContractId());
     return savedContract.fold(__ -> BigDecimal.ZERO,
       contract -> {
         final var mathContext = new MathContext(2);
