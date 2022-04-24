@@ -1,7 +1,6 @@
 package vavr.talk.javamexico.persistence.db.repository
 
 import org.jooq.RecordMapper
-import spock.lang.Ignore
 import vavr.talk.javamexico.investing.InvestingAccount
 import vavr.talk.javamexico.jooq.api.JooqStreamOperations
 import vavr.talk.javamexico.jooq.stream.JooqReadStreamOperations
@@ -25,7 +24,7 @@ class InvestingAccountWithStreamSpecs extends DbRepositorySpecification {
 
     def 'Test stream couple of hundreds of rows with a condition'() {
         given:
-            //Let's get the contract id for mxn
+            //Let's get for one of the contract id for mxn
             def contractId = streamOperations.context
                 .selectFrom(INVESTING_CONTRACT)
                 .where(INVESTING_CONTRACT.CURRENCY.eq('mxn'))
@@ -41,6 +40,22 @@ class InvestingAccountWithStreamSpecs extends DbRepositorySpecification {
         when:
             def stream = streamOperations.streamAllBy(INVESTING_ACCOUNT,
                 INVESTING_ACCOUNT.CONTRACT_ID.eq(contractId), recordMapper)
+
+        then:
+            stream.isRight()
+            stream.get().toList().size() == totalOfAccounts
+    }
+
+    def 'Test stream couple all the rows'() {
+        given:
+
+            def totalOfAccounts = streamOperations.context
+                .selectCount()
+                .from(INVESTING_ACCOUNT)
+                .fetchOneInto(Integer)
+
+        when:
+            def stream = streamOperations.streamAll(INVESTING_ACCOUNT, recordMapper)
 
         then:
             stream.isRight()
