@@ -18,13 +18,12 @@ class DefaultInterestCalculationSpecs extends Specification {
       def underTest = new DefaultInterestCalculation(userRepository, accountRepository)
 
       def calculationContext = InterestCalculationContext.builder()
-        .contracts([]).build()
+        .contracts([])
+        .build()
     when:
-      200.times {
-        //underTest.process()
-      }
       def interestFor = underTest.process(calculationContext, 1l)
     then:
       interestFor.isPresent()
+      interestFor.get().reason == 'user not found'
   }
 }
