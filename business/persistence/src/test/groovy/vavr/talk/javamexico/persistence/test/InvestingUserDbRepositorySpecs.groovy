@@ -1,17 +1,19 @@
 package vavr.talk.javamexico.persistence.test
 
-import io.micronaut.test.extensions.spock.annotation.MicronautTest
 import io.vavr.control.Either
-import jakarta.inject.Inject
+import spock.lang.Ignore
 import vavr.talk.javamexico.Failure
 import vavr.talk.javamexico.InvestingUser
 import vavr.talk.javamexico.persistence.db.repository.InvestingUserDbRepository
 
-@MicronautTest
+@Ignore
 class InvestingUserDbRepositorySpecs extends DbRepositorySpecification {
 
-    @Inject
     InvestingUserDbRepository investingUserInterestDbRepository
+
+    def setup() {
+        investingUserInterestDbRepository = InvestingUserDbRepository.create(dataSource, beanValidator)
+    }
 
     def 'Test save user interest some '() {
         given:
