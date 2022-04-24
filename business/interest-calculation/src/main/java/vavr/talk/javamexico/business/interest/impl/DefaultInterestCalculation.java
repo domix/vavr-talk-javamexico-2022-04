@@ -64,12 +64,12 @@ public class DefaultInterestCalculation implements InterestCalculation {
     final var investingUsers = userRepository.find(userId);
 
     final var map = investingUsers
-      .flatMap(this::ff)
+      .flatMap(this::calculationDataForUser)
       .map(data -> data.append(context));
     return Optional.empty();
   }
 
-  private Either<Failure, Tuple2<InvestingUser, List<InvestingAccount>>> ff(InvestingUser user) {
+  private Either<Failure, Tuple2<InvestingUser, List<InvestingAccount>>> calculationDataForUser(InvestingUser user) {
     return accountRepository.findAllActiveAccounts(user.getId())
       .map(investingAccounts -> Tuple.of(user, investingAccounts));
   }
@@ -90,37 +90,28 @@ public class DefaultInterestCalculation implements InterestCalculation {
   }
 
   private void calculateInterestFor(Tuple3<InvestingUser, List<InvestingAccount>, InterestCalculationContext> data) {
-    data._2.stream()
-      .peek(account -> {
+    final var movements = data._2.stream()
+      .map(account -> {
         final var investingContract = contractFor(account, data._3);
 
+        if (investingContract.isEmpty()) {
+          log.warn("No se encontro contrato de la cuenta {}", account.getId());
+        }
 
-        investingContract.ifPresentOrElse(contract -> {
-          BigDecimal amount = computeInterestFor(contract, account);
-          InvestingContractMovement movement = InvestingContractMovement.builder()
-            .accountId(account.getId())
-            .amount(amount)
-            .movementType("interest")
-            .build();
-          //movementRepository.create(movement);
-
-
-        }, () -> {
-          log.warn("No se pudo encontrar un contrato para la cuenta {}", account.getId());
-        });
-      });
-
-    data._2.stream()
-      .map(Tuple::of)
-      .map(account -> {
-        final var first = data._3.getContracts().stream()
-          .filter(contract -> {
-            return Objects.equals(contract.getId(), account._1.getContractId());
-          }).map(contract -> {
-            return contract;
+        return investingContract
+          .map(contract -> {
+            final var amount = computeInterestFor(contract, account);
+            return InvestingContractMovement.builder()
+              .accountId(account.getId())
+              .amount(amount)
+              .movementType("interest")
+              .build();
           });
-        return account;
-      });
+      })
+      .filter(Optional::isPresent)
+      .map(Optional::get)
+      .toList();
+
 
     //final var savedContract = contractRepository.get(account.getContractId());
     /*
