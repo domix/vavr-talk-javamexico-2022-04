@@ -1,21 +1,23 @@
 package vavr.talk.javamexico.business.interest.impl;
 
+import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.apache.commons.lang3.RandomUtils;
+import vavr.talk.javamexico.InvestingUser;
 import vavr.talk.javamexico.business.interest.InterestCalculation;
-import vavr.talk.javamexico.investing.InvestingAccount;
-import vavr.talk.javamexico.investing.InvestingContract;
+import vavr.talk.javamexico.persistence.db.repository.InvestingUserDbRepository;
 
 import java.math.BigDecimal;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
+@RequiredArgsConstructor
 public class DefaultInterestCalculation implements InterestCalculation {
+  private final InvestingUserDbRepository investingUserDbRepository;
   @SneakyThrows
   @Override
-  public BigDecimal interestFor(InvestingAccount account, InvestingContract contract) {
-    BigDecimal bigDecimal = new BigDecimal(contract.getAnnualInterestRate());
-
+  public BigDecimal interestFor(InvestingUser user) {
+    //BigDecimal bigDecimal = new BigDecimal(contract.getAnnualInterestRate());
 
     Calendar calOne = Calendar.getInstance();
     int dayOfYear = calOne.get(Calendar.DAY_OF_YEAR);
@@ -28,6 +30,6 @@ public class DefaultInterestCalculation implements InterestCalculation {
     Thread.sleep(RandomUtils.nextInt(20, 50));
 
 
-    return bigDecimal;
+    return null;
   }
 }
