@@ -123,7 +123,9 @@ public class DefaultInterestCalculation implements InterestCalculation {
       });
 
     //final var savedContract = contractRepository.get(account.getContractId());
+    /*
     return savedContract.fold(__ -> BigDecimal.ZERO,
+
       contract -> {
         final var mathContext = new MathContext(2);
         final var balance = (BigDecimal.ZERO.equals(account.getCurrentBalance())) ?
@@ -131,6 +133,6 @@ public class DefaultInterestCalculation implements InterestCalculation {
         return balance
           .multiply(new BigDecimal(contract.getAnnualInterestRate()), mathContext)
           .divide(new BigDecimal("100.00"), mathContext);
-      });
+      });*/
   }
 }

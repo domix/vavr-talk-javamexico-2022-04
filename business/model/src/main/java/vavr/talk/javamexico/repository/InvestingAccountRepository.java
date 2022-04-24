@@ -9,10 +9,6 @@ import java.util.stream.Stream;
 
 public interface InvestingAccountRepository {
 
-  Either<Failure, InvestingAccount> create(InvestingAccount account);
-
-  Either<Failure, InvestingAccount> update(InvestingAccount account);
-
   Either<Failure, List<InvestingAccount>> findAllByUserId(long userId);
 
   Either<Failure, List<InvestingAccount>> findAllActiveAccounts(long userId);
@@ -22,5 +18,7 @@ public interface InvestingAccountRepository {
   Either<Failure, InvestingAccount> find(long id);
 
   Either<Failure, Stream<InvestingAccount>> streamAllActiveAccounts(long userId);
+
+  Either<Failure, InvestingAccount> update(InvestingAccount investingAccount);
 
 }

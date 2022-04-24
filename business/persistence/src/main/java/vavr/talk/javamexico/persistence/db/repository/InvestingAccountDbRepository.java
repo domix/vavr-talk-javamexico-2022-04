@@ -62,25 +62,6 @@ public class InvestingAccountDbRepository implements InvestingAccountRepository 
     return jooqReadOperations.get(query, INSTANCE::to);
   }
 
-
-  @Override
-  public Either<Failure, InvestingAccount> create(InvestingAccount account) {
-    return beanValidator.validateBean(account)
-      .map(INSTANCE::from)
-      .flatMap(termRecord ->
-        jooqWriteOperations.save(termRecord, INSTANCE::to));
-  }
-
-  @Override
-  public Either<Failure, InvestingAccount> update(InvestingAccount account) {
-
-
-    return beanValidator.validateBean(account)
-      .map(INSTANCE::from)
-      .flatMap(termRecord ->
-        jooqWriteOperations.update(termRecord, INSTANCE::to));
-  }
-
   @Override
   public Either<Failure, List<InvestingAccount>> findAllByUserId(final long userId) {
     final Function<DSLContext, Select<InvestingAccountRecord>> query =
