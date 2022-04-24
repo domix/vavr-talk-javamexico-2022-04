@@ -33,10 +33,12 @@ public interface InvestingRecordMapper {
 
   InvestingAccount to(InvestingAccountRecord investingAccountRecord);
 
-  InvestingContractMovement from(InvestingContractMovement investingContractMovement);
+  InvestingContractMovementRecord from(InvestingContractMovement investingContractMovement);
 
   InvestingContractMovement to(InvestingContractMovementRecord investingContractMovementRecord);
 
   InvestingUser to(InvestingUserRecord investingUserRecord);
+
+  InvestingUserRecord from(InvestingUser investingUser);
 
 }

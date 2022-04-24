@@ -102,7 +102,7 @@ public class DefaultInterestCalculation implements InterestCalculation {
             .amount(amount)
             .movementType("interest")
             .build();
-          movementRepository.create(movement);
+          //movementRepository.create(movement);
 
 
         }, () -> {
