@@ -43,7 +43,7 @@ public class DefaultInterestCalculation implements InterestCalculation {
       .peek(investingContractMovements -> {
         //guardar datos
       })
-      .fold(Optional::of, __ -> Optional.<Failure>empty());
+      .fold(Optional::of, __ -> Optional.empty());
   }
 
   private Either<Failure, Tuple2<InvestingUser, List<InvestingAccount>>> calculationDataForUser(InvestingUser user) {
