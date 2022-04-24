@@ -1,22 +1,30 @@
 package vavr.talk.javamexico.business.interest.impl
 
+import io.vavr.control.Either
 import spock.lang.Specification
-import vavr.talk.javamexico.InvestingUser
-import vavr.talk.javamexico.persistence.db.repository.InvestingAccountDbRepository
+import vavr.talk.javamexico.Failure
+import vavr.talk.javamexico.business.interest.InterestCalculationContext
+import vavr.talk.javamexico.repository.InvestingAccountRepository
+import vavr.talk.javamexico.repository.InvestingUserRepository
 
 class DefaultInterestCalculationSpecs extends Specification {
 
   def foo() {
     given:
-      def accountDbRepository = Stub(InvestingAccountDbRepository)
-      def underTest = new DefaultInterestCalculation(null, accountDbRepository)
-      def user = InvestingUser.builder().id(1l).build()
+      def accountRepository = Stub(InvestingAccountRepository)
+      def userRepository = Stub(InvestingUserRepository)
+      //userRepository.find(_ as Long) >> Either.right(InvestingUser.builder().id(1l).build())
+      userRepository.find(_ as Long) >> Either.left(Failure.of("", "user not found"))
+      def underTest = new DefaultInterestCalculation(userRepository, accountRepository)
+
+      def calculationContext = InterestCalculationContext.builder()
+        .contracts([]).build()
     when:
       200.times {
-        underTest.interestFor(user)
+        //underTest.process()
       }
-      def interestFor = underTest.interestFor(user)
+      def interestFor = underTest.process(calculationContext, 1l)
     then:
-      !interestFor
+      interestFor.isPresent()
   }
 }

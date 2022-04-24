@@ -24,8 +24,7 @@ public class VavrInterestCalculation implements InterestCalculation {
   private final InvestingContractRepository contractRepository;
   private final ExecutorService executorService;
 
-  @Override
-  public BigDecimal interestFor(final InvestingUser user) {
+  private BigDecimal interestFor(final InvestingUser user) {
     return accountRepository.findAllActiveAccounts(user.getId())
       .fold(__ -> BigDecimal.ZERO,
         this::calculateInterestForInvestingUser);

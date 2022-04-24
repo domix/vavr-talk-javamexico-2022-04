@@ -7,9 +7,7 @@ import io.vavr.Value;
 import io.vavr.control.Either;
 import io.vavr.control.Option;
 import lombok.RequiredArgsConstructor;
-import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.RandomUtils;
 import vavr.talk.javamexico.Failure;
 import vavr.talk.javamexico.InvestingUser;
 import vavr.talk.javamexico.business.interest.InterestCalculation;
@@ -24,8 +22,6 @@ import vavr.talk.javamexico.repository.InvestingUserRepository;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -35,30 +31,8 @@ import java.util.Optional;
 public class DefaultInterestCalculation implements InterestCalculation {
   private final InvestingUserRepository userRepository;
   private final InvestingAccountRepository accountRepository;
-  private final InvestingContractRepository contractRepository;
-  private final InvestingContractMovementRepository movementRepository;
-
-
-  @SneakyThrows
-  @Override
-  public BigDecimal interestFor(InvestingUser user) {
-    final var allAccountsByUserId = accountRepository.findAllActiveAccounts(user.getId())
-      .map(investingAccounts -> {
-        investingAccounts.stream()
-          .map(investingAccount -> {
-            return "";
-          });
-        return "";
-      });
-
-    Calendar calOne = Calendar.getInstance();
-    int year = calOne.get(Calendar.YEAR);
-    Calendar calTwo = new GregorianCalendar(year, 11, 31);
-    int day = calTwo.get(Calendar.DAY_OF_YEAR);
-    System.out.println("Days in current year: " + day);
-    Thread.sleep(RandomUtils.nextInt(20, 50));
-    return null;
-  }
+  //private final InvestingContractRepository contractRepository;
+  //private final InvestingContractMovementRepository movementRepository;
 
   @Override
   public Optional<Failure> process(InterestCalculationContext context, Long userId) {
@@ -69,7 +43,7 @@ public class DefaultInterestCalculation implements InterestCalculation {
       .peek(investingContractMovements -> {
         //guardar datos
       })
-      .fold(Optional::of, __ -> Optional.empty());
+      .fold(Optional::of, __ -> Optional.<Failure>empty());
   }
 
   private Either<Failure, Tuple2<InvestingUser, List<InvestingAccount>>> calculationDataForUser(InvestingUser user) {
