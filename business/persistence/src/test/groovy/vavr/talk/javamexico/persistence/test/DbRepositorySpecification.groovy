@@ -27,9 +27,6 @@ class DbRepositorySpecification extends Specification {
         def configuration = new ClassicConfiguration()
         configuration.setDataSource(dataSource)
         configuration.setLocations(new Location("classpath:db/migration"))
-
-        /*def flyway = new Flyway(configuration)
-        flyway.migrate()*/
     }
 
 }
