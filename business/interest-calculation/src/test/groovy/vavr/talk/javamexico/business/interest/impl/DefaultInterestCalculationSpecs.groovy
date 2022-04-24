@@ -12,7 +12,7 @@ class DefaultInterestCalculationSpecs extends Specification {
       def underTest = new DefaultInterestCalculation(null, accountDbRepository)
       def user = InvestingUser.builder().id(1l).build()
     when:
-      2000.times {
+      200.times {
         underTest.interestFor(user)
       }
       def interestFor = underTest.interestFor(user)

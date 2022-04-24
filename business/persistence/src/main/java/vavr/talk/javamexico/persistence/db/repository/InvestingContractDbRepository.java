@@ -4,16 +4,21 @@ import io.vavr.control.Either;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
+import org.jooq.DSLContext;
+import org.jooq.Select;
 import vavr.talk.javamexico.Failure;
 import vavr.talk.javamexico.investing.InvestingContract;
 import vavr.talk.javamexico.jooq.api.JooqReadOperations;
 import vavr.talk.javamexico.jooq.api.JooqWriteOperations;
 import vavr.talk.javamexico.jooq.transactional.TransactionAwareJooqReadOperations;
 import vavr.talk.javamexico.jooq.transactional.TransactionAwareJooqWriteOperations;
+import vavr.talk.javamexico.persistence.jooq.tables.records.InvestingContractRecord;
 import vavr.talk.javamexico.repository.InvestingContractRepository;
 import vavr.talk.javamexico.validation.BeanValidator;
 
 import javax.sql.DataSource;
+
+import java.util.function.Function;
 
 import static vavr.talk.javamexico.persistence.jooq.tables.InvestingContract.INVESTING_CONTRACT;
 import static vavr.talk.javamexico.persistence.mapper.InvestingRecordMapper.INSTANCE;
@@ -43,5 +48,13 @@ public class InvestingContractDbRepository implements InvestingContractRepositor
             .flatMap(termRecord ->
                 jooqWriteOperations.save(termRecord, INSTANCE::to));
     }
+
+  @Override
+  public Either<Failure, InvestingContract> get(final long id) {
+    final Function<DSLContext, Select<InvestingContractRecord>> query =
+      context -> context.selectFrom(INVESTING_CONTRACT)
+        .where(INVESTING_CONTRACT.ID.eq(id));
+    return jooqReadOperations.get(query, INSTANCE::to);
+  }
 
 }

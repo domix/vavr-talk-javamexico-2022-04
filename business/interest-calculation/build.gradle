@@ -18,6 +18,9 @@ dependencies {
   api project(':business:persistence')
 
   implementation "org.apache.commons:commons-lang3:3.12.0"
+
+  testImplementation testFixtures(project(':business:persistence'))
+  testRuntimeOnly 'org.slf4j:slf4j-simple:1.7.36'
 }
 
 java {
