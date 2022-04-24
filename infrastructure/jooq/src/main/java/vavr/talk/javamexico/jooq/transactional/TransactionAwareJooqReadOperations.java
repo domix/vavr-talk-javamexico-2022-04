@@ -9,10 +9,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.jooq.Record;
 import org.jooq.*;
 import vavr.talk.javamexico.Failure;
+import vavr.talk.javamexico.jooq.api.JooqReadOperations;
 import vavr.talk.javamexico.jooq.entity.Page;
 import vavr.talk.javamexico.jooq.entity.Pageable;
 import vavr.talk.javamexico.jooq.entity.Slice;
-import vavr.talk.javamexico.jooq.api.JooqReadOperations;
 import vavr.talk.javamexico.jooq.factory.JooqOperationFailures;
 import vavr.talk.javamexico.jooq.factory.TransactionAwareJooqContextFactory;
 
@@ -90,6 +90,19 @@ public class TransactionAwareJooqReadOperations implements JooqReadOperations {
     public <T, R extends Record> Either<Failure, List<T>> findAll(final @Nonnull Function<DSLContext, Select<R>> selectQueryAction,
                                                                   final @Nonnull RecordMapper<R, T> recordMapper) {
         return fetchMany(selectQueryAction, result -> result.map(recordMapper));
+    }
+
+    @Nonnull
+    @Override
+    public <T, R extends Record, E extends Table<R>> Either<Failure, Slice<T>> findAll(
+        @Nonnull final E tableType,
+        @Nonnull final RecordMapper<R, T> recordMapper
+    ) {
+        return Try.of(() -> dslContext.selectFrom(tableType).fetch())
+            .mapTry(result -> result.map(recordMapper))
+            .toEither()
+            .mapLeft(throwable -> jooqOperationFailures.createFailure(throwable, FETCH_MANY))
+            .map(Slice::ofContent);
     }
 
     @Nonnull
