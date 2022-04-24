@@ -10,7 +10,7 @@ Implemented using jOOQ + VAVR. It uses `flyway` migrations to either database ve
 ### Local development database
 
 ```shell
-docker run --name investing-db --rm -p 5434:5432 -e POSTGRES_USER=admin -e POSTGRES_PASSWORD=password -d postgres:14.2-alpine 
+docker run --name investing-db --rm -p 5434:5432 -e POSTGRES_USER=admin -e POSTGRES_PASSWORD=password -e POSTGRES_DB=investing -d postgres:14.2-alpine 
 ```
 Will create docker container with a PostgreSQL ready to used. 
 
