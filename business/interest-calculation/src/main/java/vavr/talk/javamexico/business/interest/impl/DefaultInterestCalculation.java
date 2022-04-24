@@ -9,15 +9,13 @@ import io.vavr.control.Option;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import vavr.talk.javamexico.Failure;
-import vavr.talk.javamexico.InvestingUser;
+import vavr.talk.javamexico.investing.InvestingUser;
 import vavr.talk.javamexico.business.interest.InterestCalculation;
 import vavr.talk.javamexico.business.interest.InterestCalculationContext;
 import vavr.talk.javamexico.investing.InvestingAccount;
 import vavr.talk.javamexico.investing.InvestingContract;
 import vavr.talk.javamexico.investing.InvestingContractMovement;
 import vavr.talk.javamexico.repository.InvestingAccountRepository;
-import vavr.talk.javamexico.repository.InvestingContractMovementRepository;
-import vavr.talk.javamexico.repository.InvestingContractRepository;
 import vavr.talk.javamexico.repository.InvestingUserRepository;
 
 import java.math.BigDecimal;
@@ -31,7 +29,6 @@ import java.util.Optional;
 public class DefaultInterestCalculation implements InterestCalculation {
   private final InvestingUserRepository userRepository;
   private final InvestingAccountRepository accountRepository;
-  //private final InvestingContractRepository contractRepository;
   //private final InvestingContractMovementRepository movementRepository;
 
   @Override
@@ -42,6 +39,8 @@ public class DefaultInterestCalculation implements InterestCalculation {
       .map(this::calculateInterestFor)
       .peek(investingContractMovements -> {
         //guardar datos
+        //accountRepository.updateBatch()
+        //movementRepository.insertBatch(investingContractMovements);
       })
       .fold(Optional::of, __ -> Optional.empty());
   }

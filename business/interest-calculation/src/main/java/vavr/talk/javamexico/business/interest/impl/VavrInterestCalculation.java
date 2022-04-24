@@ -3,7 +3,7 @@ package vavr.talk.javamexico.business.interest.impl;
 import io.vavr.concurrent.Future;
 import lombok.RequiredArgsConstructor;
 import vavr.talk.javamexico.Failure;
-import vavr.talk.javamexico.InvestingUser;
+import vavr.talk.javamexico.investing.InvestingUser;
 import vavr.talk.javamexico.business.interest.InterestCalculation;
 import vavr.talk.javamexico.business.interest.InterestCalculationContext;
 import vavr.talk.javamexico.investing.InvestingAccount;

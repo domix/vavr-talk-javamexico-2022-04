@@ -1,8 +1,7 @@
 package vavr.talk.javamexico.persistence.db.repository
 
-import io.vavr.control.Either
-import vavr.talk.javamexico.Failure
-import vavr.talk.javamexico.InvestingUser
+
+import vavr.talk.javamexico.investing.InvestingUser
 import vavr.talk.javamexico.persistence.test.DbRepositorySpecification
 import vavr.talk.javamexico.repository.InvestingAccountRepository
 import vavr.talk.javamexico.repository.InvestingContractRepository

@@ -5,7 +5,7 @@ import org.mapstruct.NullValueCheckStrategy;
 import org.mapstruct.NullValuePropertyMappingStrategy;
 import org.mapstruct.ReportingPolicy;
 import org.mapstruct.factory.Mappers;
-import vavr.talk.javamexico.InvestingUser;
+import vavr.talk.javamexico.investing.InvestingUser;
 import vavr.talk.javamexico.persistence.jooq.tables.records.InvestingUserRecord;
 
 @Mapper(
