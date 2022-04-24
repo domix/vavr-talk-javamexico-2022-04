@@ -26,6 +26,7 @@ class InvestingUserInterestDbRepositorySpecs extends DbRepositorySpecification {
             def investingTerm = investingTermDbRepository.save(investingTerm()).get()
             def userInterests = [] as List<InvestingUserInterest>
             10.times {
+                println investingTerm.id
                 final def interest = InvestingUserInterest.builder()
                     .investingTermId(investingTerm.id)
                     .userId(userId)
