@@ -1,12 +1,13 @@
 package vavr.talk.javamexico.jooq.api;
 
-import io.vavr.collection.Stream;
 import io.vavr.control.Either;
 import org.jooq.Condition;
 import org.jooq.Record;
 import org.jooq.RecordMapper;
 import org.jooq.Table;
 import vavr.talk.javamexico.Failure;
+
+import java.util.stream.Stream;
 
 public interface JooqStreamOperations extends JooqContext {
 
