@@ -102,7 +102,7 @@ flyway {
   password = 'password'
   schemas = ['public']
   locations = ['classpath:db/migration']
-  //skipDefaultCallbacks = true
+  skipDefaultCallbacks = true
 }
 
 flywayMigrate.dependsOn classes
