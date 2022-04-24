@@ -3,6 +3,7 @@ package vavr.talk.javamexico.business.interest.impl;
 import io.vavr.Tuple;
 import io.vavr.Tuple2;
 import io.vavr.Tuple3;
+import io.vavr.Value;
 import io.vavr.control.Either;
 import io.vavr.control.Option;
 import lombok.RequiredArgsConstructor;
@@ -49,7 +50,6 @@ public class DefaultInterestCalculation implements InterestCalculation {
           });
         return "";
       });
-    //BigDecimal bigDecimal = new BigDecimal(contract.getAnnualInterestRate());
 
     Calendar calOne = Calendar.getInstance();
     int year = calOne.get(Calendar.YEAR);
@@ -62,12 +62,14 @@ public class DefaultInterestCalculation implements InterestCalculation {
 
   @Override
   public Optional<Failure> process(InterestCalculationContext context, Long userId) {
-    final var investingUsers = userRepository.find(userId);
-
-    final var map = investingUsers
+    return userRepository.find(userId)
       .flatMap(this::calculationDataForUser)
-      .map(data -> data.append(context));
-    return Optional.empty();
+      .map(data -> data.append(context))
+      .map(this::calculateInterestFor)
+      .peek(investingContractMovements -> {
+        //guardar datos
+      })
+      .fold(Optional::of, __ -> Optional.empty());
   }
 
   private Either<Failure, Tuple2<InvestingUser, List<InvestingAccount>>> calculationDataForUser(InvestingUser user) {
@@ -90,25 +92,28 @@ public class DefaultInterestCalculation implements InterestCalculation {
       .findFirst());
   }
 
-  private void calculateInterestFor(Tuple3<InvestingUser, List<InvestingAccount>, InterestCalculationContext> data) {
-    final var movements = data._2.stream()
+  private List<InvestingContractMovement> calculateInterestFor(Tuple3<InvestingUser, List<InvestingAccount>, InterestCalculationContext> data) {
+    return data._2.stream()
       .map(account -> createMovementIfNeeded(data, account))
+      .map(Value::toJavaOptional)
       .filter(Optional::isPresent)
       .map(Optional::get)
       .toList();
   }
 
-  private Optional<InvestingContractMovement> createMovementIfNeeded(
+  private Option<InvestingContractMovement> createMovementIfNeeded(
     Tuple3<InvestingUser, List<InvestingAccount>, InterestCalculationContext> data, InvestingAccount account
   ) {
     return contractFor(account, data._3)
-      .onEmpty(() -> log.warn("No se encontro contrato de la cuenta {}", account.getId())).map(contract -> {
-        final var amount = computeInterestFor(contract, account);
-        return InvestingContractMovement.builder()
-          .accountId(account.getId())
-          .amount(amount)
-          .movementType("interest")
-          .build();
-      }).toJavaOptional();
+      .onEmpty(() -> log.warn("No se encontro contrato de la cuenta {}", account.getId()))
+      .map(contract -> createAccountMovement(account, contract));
+  }
+
+  private InvestingContractMovement createAccountMovement(InvestingAccount account, InvestingContract contract) {
+    return InvestingContractMovement.builder()
+      .accountId(account.getId())
+      .amount(computeInterestFor(contract, account))
+      .movementType("interest")
+      .build();
   }
 }
