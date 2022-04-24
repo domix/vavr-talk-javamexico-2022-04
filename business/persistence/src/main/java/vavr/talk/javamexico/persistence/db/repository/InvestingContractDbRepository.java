@@ -5,46 +5,41 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import vavr.talk.javamexico.Failure;
-import vavr.talk.javamexico.investing.InvestingTerm;
+import vavr.talk.javamexico.investing.InvestingContract;
 import vavr.talk.javamexico.jooq.api.JooqReadOperations;
 import vavr.talk.javamexico.jooq.api.JooqWriteOperations;
-import vavr.talk.javamexico.jooq.entity.Slice;
 import vavr.talk.javamexico.jooq.transactional.TransactionAwareJooqReadOperations;
 import vavr.talk.javamexico.jooq.transactional.TransactionAwareJooqWriteOperations;
 import vavr.talk.javamexico.validation.BeanValidator;
 
 import javax.sql.DataSource;
 
-import static vavr.talk.javamexico.persistence.jooq.tables.InvestingTerm.INVESTING_TERM;
+import static vavr.talk.javamexico.persistence.jooq.tables.InvestingContract.INVESTING_CONTRACT;
 import static vavr.talk.javamexico.persistence.mapper.InvestingRecordMapper.INSTANCE;
 
 
 @NoArgsConstructor(access = AccessLevel.PACKAGE)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public class InvestingTermDbRepository {
+public class InvestingContractDbRepository {
 
-    static final String DOMAIN_NAME = INVESTING_TERM.getName();
+    static final String DOMAIN_NAME = INVESTING_CONTRACT.getName();
 
     private JooqReadOperations jooqReadOperations;
     private JooqWriteOperations jooqWriteOperations;
     private BeanValidator<?> beanValidator;
 
-    public static InvestingTermDbRepository create(final DataSource dataSource,
-                                                   final BeanValidator<?> beanValidator) {
+    public static InvestingContractDbRepository create(final DataSource dataSource,
+                                                       final BeanValidator<?> beanValidator) {
         final var writer = TransactionAwareJooqWriteOperations.create(dataSource, DOMAIN_NAME, beanValidator);
         final var reader = TransactionAwareJooqReadOperations.create(dataSource, DOMAIN_NAME);
-        return new InvestingTermDbRepository(reader, writer, beanValidator);
+        return new InvestingContractDbRepository(reader, writer, beanValidator);
     }
 
-    public Either<Failure, InvestingTerm> save(final InvestingTerm investingTerm) {
-        return beanValidator.validateBean(investingTerm)
+    public Either<Failure, InvestingContract> save(final InvestingContract investingContract) {
+        return beanValidator.validateBean(investingContract)
             .map(INSTANCE::from)
             .flatMap(termRecord ->
                 jooqWriteOperations.save(termRecord, INSTANCE::to));
-    }
-
-    public Either<Failure, Slice<InvestingTerm>> findAll() {
-        return jooqReadOperations.findAll(INVESTING_TERM, INSTANCE::to);
     }
 
 }
