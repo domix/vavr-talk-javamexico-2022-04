@@ -31,6 +31,9 @@ dependencies {
   implementation "org.jooq:jooq-codegen:3.16.4"
   implementation "org.jooq:jooq-meta:3.16.4"
 
+  implementation "org.flywaydb:flyway-core:8.5.9"
+  implementation "com.github.javafaker:javafaker:1.0.2"
+
   runtimeOnly "org.postgresql:postgresql:42.3.3"
 
   jooqGenerator "org.jooq:jooq-meta-extensions:3.16.4"
@@ -98,5 +101,8 @@ flyway {
   user = 'admin'
   password = 'password'
   schemas = ['public']
-  skipDefaultCallbacks = true
+  locations = ['classpath:db/migration']
+  //skipDefaultCallbacks = true
 }
+
+flywayMigrate.dependsOn classes
