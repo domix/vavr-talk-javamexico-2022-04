@@ -9,4 +9,5 @@ import java.math.BigDecimal;
 public interface InterestCalculation {
   //BigDecimal interestFor(InvestingAccount account, InvestingContract contract);
   BigDecimal interestFor(InvestingUser user);
+
 }

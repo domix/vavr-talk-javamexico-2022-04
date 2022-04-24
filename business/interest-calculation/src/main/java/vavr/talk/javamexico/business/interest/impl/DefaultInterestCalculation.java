@@ -5,6 +5,7 @@ import lombok.SneakyThrows;
 import org.apache.commons.lang3.RandomUtils;
 import vavr.talk.javamexico.InvestingUser;
 import vavr.talk.javamexico.business.interest.InterestCalculation;
+import vavr.talk.javamexico.persistence.db.repository.InvestingAccountDbRepository;
 import vavr.talk.javamexico.persistence.db.repository.InvestingUserDbRepository;
 
 import java.math.BigDecimal;
@@ -14,9 +15,19 @@ import java.util.GregorianCalendar;
 @RequiredArgsConstructor
 public class DefaultInterestCalculation implements InterestCalculation {
   private final InvestingUserDbRepository investingUserDbRepository;
+  private final InvestingAccountDbRepository accountDbRepository;
+
   @SneakyThrows
   @Override
   public BigDecimal interestFor(InvestingUser user) {
+    final var allAccountsByUserId = accountDbRepository.findAllActiveAccounts(user.getId())
+      .map(investingAccounts -> {
+        investingAccounts.stream()
+          .map(investingAccount -> {
+            return "";
+          });
+        return "";
+      });
     //BigDecimal bigDecimal = new BigDecimal(contract.getAnnualInterestRate());
 
     Calendar calOne = Calendar.getInstance();
