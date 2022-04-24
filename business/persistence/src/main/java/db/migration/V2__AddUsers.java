@@ -15,7 +15,7 @@ public class V2__AddUsers extends BaseJavaMigration {
   @Override
   public void migrate(Context context) throws Exception {
 
-    final var dataLines = IntStream.rangeClosed(1, 1_000_000)
+    final var dataLines = IntStream.rangeClosed(1, 2_000_000)
       .mapToObj(__ -> dataLine())
       .collect(Collectors.joining(","));
 
