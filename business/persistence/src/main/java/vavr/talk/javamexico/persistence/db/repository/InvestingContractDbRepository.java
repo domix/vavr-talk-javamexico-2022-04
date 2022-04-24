@@ -10,6 +10,7 @@ import vavr.talk.javamexico.jooq.api.JooqReadOperations;
 import vavr.talk.javamexico.jooq.api.JooqWriteOperations;
 import vavr.talk.javamexico.jooq.transactional.TransactionAwareJooqReadOperations;
 import vavr.talk.javamexico.jooq.transactional.TransactionAwareJooqWriteOperations;
+import vavr.talk.javamexico.repository.InvestingContractRepository;
 import vavr.talk.javamexico.validation.BeanValidator;
 
 import javax.sql.DataSource;
@@ -20,7 +21,7 @@ import static vavr.talk.javamexico.persistence.mapper.InvestingRecordMapper.INST
 
 @NoArgsConstructor(access = AccessLevel.PACKAGE)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public class InvestingContractDbRepository {
+public class InvestingContractDbRepository implements InvestingContractRepository {
 
     static final String DOMAIN_NAME = INVESTING_CONTRACT.getName();
 
@@ -35,6 +36,7 @@ public class InvestingContractDbRepository {
         return new InvestingContractDbRepository(reader, writer, beanValidator);
     }
 
+    @Override
     public Either<Failure, InvestingContract> save(final InvestingContract investingContract) {
         return beanValidator.validateBean(investingContract)
             .map(INSTANCE::from)

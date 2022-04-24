@@ -13,6 +13,7 @@ import vavr.talk.javamexico.jooq.transactional.TransactionAwareJooqReadOperation
 import vavr.talk.javamexico.jooq.transactional.TransactionAwareJooqWriteOperations;
 import vavr.talk.javamexico.persistence.jooq.tables.records.InvestingAccountRecord;
 import vavr.talk.javamexico.persistence.mapper.InvestingRecordMapper;
+import vavr.talk.javamexico.repository.InvestingAccountRepository;
 import vavr.talk.javamexico.validation.BeanValidator;
 
 import javax.sql.DataSource;
@@ -22,7 +23,7 @@ import java.util.function.Function;
 import static vavr.talk.javamexico.persistence.jooq.tables.InvestingAccount.INVESTING_ACCOUNT;
 
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
-public class InvestingAccountDbRepository {
+public class InvestingAccountDbRepository implements InvestingAccountRepository {
 
     static final String DOMAIN_NAME = INVESTING_ACCOUNT.getName();
 
@@ -37,6 +38,7 @@ public class InvestingAccountDbRepository {
         return new InvestingAccountDbRepository(reader, writer, beanValidator);
     }
 
+    @Override
     public Either<Failure, List<InvestingAccount>> findAllByUserId(final long userId) {
         final Function<DSLContext, Select<InvestingAccountRecord>> query =
             context -> context.selectFrom(INVESTING_ACCOUNT)
