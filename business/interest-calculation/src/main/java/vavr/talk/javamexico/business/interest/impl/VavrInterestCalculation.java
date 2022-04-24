@@ -33,7 +33,7 @@ public class VavrInterestCalculation implements InterestCalculation {
     final var accountFutures = accounts
       .stream()
       .map(account -> Future.of(executorService, () -> call.apply(account)))
-      .toList();B
+      .toList();
     return Future.sequence(executorService, accountFutures)
       .await()
       .getOrElse(io.vavr.collection.List.empty())

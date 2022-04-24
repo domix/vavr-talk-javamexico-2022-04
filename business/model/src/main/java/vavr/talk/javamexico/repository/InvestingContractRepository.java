@@ -4,8 +4,19 @@ import io.vavr.control.Either;
 import vavr.talk.javamexico.Failure;
 import vavr.talk.javamexico.investing.InvestingContract;
 
-public interface InvestingContractRepository {
-    Either<Failure, InvestingContract> save(InvestingContract investingContract);
+import java.util.List;
+import java.util.stream.Stream;
 
-    Either<Failure, InvestingContract> get(long id);
+public interface InvestingContractRepository {
+
+  Either<Failure, InvestingContract> save(InvestingContract investingContract);
+
+  Either<Failure, InvestingContract> get(long id);
+
+  Either<Failure, List<InvestingContract>> findAll();
+
+  Either<Failure, Stream<InvestingContract>> streamAll();
+
+  Either<Failure, InvestingContract> update(InvestingContract investingContract);
+
 }
