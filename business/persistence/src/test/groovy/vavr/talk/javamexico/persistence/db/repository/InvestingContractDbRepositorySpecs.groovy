@@ -1,8 +1,9 @@
-package vavr.talk.javamexico.persistence.test
+package vavr.talk.javamexico.persistence.db.repository
 
 import spock.lang.Ignore
 import vavr.talk.javamexico.investing.InvestingContract
 import vavr.talk.javamexico.persistence.db.repository.InvestingContractDbRepository
+import vavr.talk.javamexico.persistence.test.DbRepositorySpecification
 
 import static vavr.talk.javamexico.Failure.ErrorType.VALIDATION
 
@@ -12,7 +13,7 @@ class InvestingContractDbRepositorySpecs extends DbRepositorySpecification {
     InvestingContractDbRepository investingContractDbRepository
 
     def setup() {
-        investingContractDbRepository = InvestingContractDbRepository.create(dataSource, beanValidator)
+        investingContractDbRepository = InvestingContractDbRepository.create(DbRepositorySpecification.dataSource, DbRepositorySpecification.beanValidator)
     }
 
     def 'Test save investing term for case #testCase'() {

@@ -8,7 +8,6 @@ import lombok.Value;
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 
-@ToString
 @Value
 @Builder
 public class InvestingAccount {
