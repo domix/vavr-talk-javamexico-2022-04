@@ -1,25 +1,24 @@
 package vavr.talk.javamexico.persistence.db.repository
 
-import spock.lang.Ignore
+
 import vavr.talk.javamexico.investing.InvestingContract
-import vavr.talk.javamexico.persistence.db.repository.InvestingContractDbRepository
 import vavr.talk.javamexico.persistence.test.DbRepositorySpecification
+import vavr.talk.javamexico.repository.InvestingContractRepository
 
 import static vavr.talk.javamexico.Failure.ErrorType.VALIDATION
 
-@Ignore
 class InvestingContractDbRepositorySpecs extends DbRepositorySpecification {
 
-    InvestingContractDbRepository investingContractDbRepository
+    InvestingContractRepository investingContractRepository
 
     def setup() {
-        investingContractDbRepository = InvestingContractDbRepository.create(dataSource, beanValidator)
+        investingContractRepository = InvestingContractDbRepository.create(dataSource, beanValidator)
     }
 
     def 'Test save investing term for case #testCase'() {
         when:
             def investingContract = createContract(testCase)
-            def result = investingContractDbRepository.save(investingContract)
+            def result = investingContractRepository.save(investingContract)
 
         then:
             if (testCase == 'invalid_term') {
