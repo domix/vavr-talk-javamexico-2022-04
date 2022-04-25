@@ -1,6 +1,7 @@
 package vavr.talk.javamexico.business.interest.impl
 
 import org.jooq.RecordMapper
+import spock.lang.Ignore
 import spock.lang.Specification
 import vavr.talk.javamexico.investing.InvestingUser
 import vavr.talk.javamexico.business.interest.InterestCalculation
@@ -19,6 +20,7 @@ import java.util.concurrent.Executors
 
 import static vavr.talk.javamexico.persistence.jooq.tables.InvestingUser.INVESTING_USER
 
+@Ignore
 class ParallelInterestCalculationSpecs extends Specification {
 
   static final DbRepositorySpec db = new DbRepositorySpec()

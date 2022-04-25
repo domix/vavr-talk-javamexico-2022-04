@@ -34,11 +34,12 @@ public class DefaultInterestCalculation implements InterestCalculation {
   @Override
   public Optional<Failure> process(InterestCalculationContext context, InvestingUser user) {
 
-    return calculationDataForUser(user)
+    final var result = calculationDataForUser(user)
       .map(data -> data.append(context))
       .map(this::calculateInterestFor)
       .peek(movements -> {
-        log.info("Movimientos: {}", movements.size());
+
+        //log.info("Movimientos: {}", movements.size());
 
         final var accountNewAmounts = new HashMap<Long, BigDecimal>();
         movements.forEach(data -> {
@@ -53,27 +54,55 @@ public class DefaultInterestCalculation implements InterestCalculation {
           accountNewAmounts.put(key, amount);
         });
 
-        log.info("data: {}", accountNewAmounts);
+        //log.info("data: {}", accountNewAmounts);
         final var investingAccounts = movements.stream()
           .map(moves -> moves._1)
           .filter(account -> accountNewAmounts.containsKey(account.getId()))
           .map(account -> getBuild(accountNewAmounts, account))
           .toList();
 
-        //guardar datos
-        accountRepository.updateBatch(investingAccounts).ifPresent(failure -> {
-          log.error(failure.toString());
-        });
+        if (!investingAccounts.isEmpty()) {
+          //guardar datos
+          accountRepository.updateBatch(investingAccounts)
+            .ifPresent(failure -> {
+              log.error(failure.toString());
+            });
+        }
+
 
         final var investingContractMovements = movements.stream()
           .map(movs -> movs._2)
           .toList();
-        movementRepository.insertBatch(investingContractMovements).ifPresent(failure -> {
-          log.error(failure.toString());
-        });
 
+        if(!investingContractMovements.isEmpty()) {
+          movementRepository.insertBatch(investingContractMovements)
+            .ifPresent(failure -> {
+              log.error(failure.toString());
+            });
+        }
+
+
+      });
+
+    final var fold = result.fold(Optional::of, tuple2s -> Optional.<Failure>empty());
+
+    /*Optional<Failure> fold = accountRepository
+      .executeInTransaction(() -> {
+        final var s = result;
+        s.peek(tuple2s -> {
+          log.info("{}", tuple2s);
+        }).peekLeft(failure -> {
+          log.error("failure {}", failure);
+        })
+        ;
+        return result;
       })
-      .fold(Optional::of, __ -> Optional.empty());
+      .fold(
+        Optional::of,
+        __ -> Optional.<Failure>empty());
+
+     */
+    return fold;
   }
 
   private InvestingAccount getBuild(HashMap<Long, BigDecimal> accountNewAmounts, InvestingAccount account) {
@@ -88,7 +117,7 @@ public class DefaultInterestCalculation implements InterestCalculation {
   }
 
   private Either<Failure, Tuple2<InvestingUser, List<InvestingAccount>>> calculationDataForUser(InvestingUser user) {
-    log.info("Calculo para usuario: {}", user.getId());
+    //log.info("Calculo para usuario: {}", user.getId());
     return accountRepository.findAllActiveAccounts(user.getId())
       .map(investingAccounts -> Tuple.of(user, investingAccounts));
   }
@@ -111,7 +140,7 @@ public class DefaultInterestCalculation implements InterestCalculation {
     final var divide = balance
       .multiply(annualInterestRate, mathContext)
       .divide(new BigDecimal("100.00"), mathContext);
-    log.info(template, contract.getContractName(), account.getId(), contract.getCurrency(), contract.getAnnualInterestRate(), account.getCurrentBalance(), balance, divide.toPlainString());
+    //log.info(template, contract.getContractName(), account.getId(), contract.getCurrency(), contract.getAnnualInterestRate(), account.getCurrentBalance(), balance, divide.toPlainString());
     return divide;
   }
 
