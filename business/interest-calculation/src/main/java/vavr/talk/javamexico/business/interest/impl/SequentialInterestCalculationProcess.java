@@ -30,8 +30,11 @@ public class SequentialInterestCalculationProcess implements InterestCalculation
   private void process(InterestCalculationContext context) {
     userRepository.streamAll()
       .peek(userStream -> userStream
-        .map(user -> interestCalculation.process(context, user))
-        .filter(Optional::isPresent)
+        .peek(investingUser -> {
+          log.info("User: {}", investingUser.getFirstName());
+        })
+        //.map(user -> interestCalculation.process(context, user))
+        //.filter(Optional::isPresent)
         .forEach(failure -> log.error("Failure: {}", failure)));
   }
 

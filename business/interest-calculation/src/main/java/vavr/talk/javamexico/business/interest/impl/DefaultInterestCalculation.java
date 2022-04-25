@@ -33,6 +33,7 @@ public class DefaultInterestCalculation implements InterestCalculation {
 
   @Override
   public Optional<Failure> process(InterestCalculationContext context, InvestingUser user) {
+
     return calculationDataForUser(user)
       .map(data -> data.append(context))
       .map(this::calculateInterestFor)
