@@ -9,7 +9,8 @@ class SequentialInterestCalculationProcessSpecs extends BaseDBIntegrationSpec {
   def foo() {
     given:
       InterestCalculation interestCalculation = new DefaultInterestCalculation(accountRepository, movementRepository)
-      InterestCalculationProcess underTest = new SequentialInterestCalculationProcess(userRepository, contractRepository, interestCalculation)
+      //InterestCalculationProcess underTest = new SequentialInterestCalculationProcess(userRepository, contractRepository, interestCalculation)
+      InterestCalculationProcess underTest = new ParallelInterestCalculationProcess(userRepository, contractRepository, interestCalculation)
       def watch = new StopWatch()
       watch.start()
     when:
