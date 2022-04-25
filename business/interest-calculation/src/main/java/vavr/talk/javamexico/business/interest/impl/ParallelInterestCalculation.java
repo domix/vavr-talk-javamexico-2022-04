@@ -18,7 +18,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.function.Function;
 
 @RequiredArgsConstructor
-public class VavrInterestCalculation implements InterestCalculation {
+public class ParallelInterestCalculation implements InterestCalculation {
 
   private final InvestingAccountRepository accountRepository;
   private final InvestingContractRepository contractRepository;
