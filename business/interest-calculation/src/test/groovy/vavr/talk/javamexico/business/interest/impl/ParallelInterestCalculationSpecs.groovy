@@ -19,7 +19,7 @@ import java.util.concurrent.Executors
 
 import static vavr.talk.javamexico.persistence.jooq.tables.InvestingUser.INVESTING_USER
 
-class VavrInterestCalculationSpecs extends Specification {
+class ParallelInterestCalculationSpecs extends Specification {
 
   static final DbRepositorySpec db = new DbRepositorySpec()
   static final RecordMapper<InvestingUserRecord, InvestingUser> recordMapper =
@@ -40,7 +40,7 @@ class VavrInterestCalculationSpecs extends Specification {
     streamOperations = JooqReadStreamOperations.create(db.dataSource, 'investing')
     accountRepository = InvestingAccountDbRepository.create(db.dataSource, db.beanValidator)
     contractRepository = InvestingContractDbRepository.create(db.dataSource, db.beanValidator)
-    interestCalculation = new VavrInterestCalculation(accountRepository, contractRepository, executorService)
+    interestCalculation = new ParallelInterestCalculation(accountRepository, contractRepository, executorService)
   }
 
   def 'test calculation of interest'() {

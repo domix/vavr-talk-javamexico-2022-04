@@ -1,5 +1,6 @@
 package vavr.talk.javamexico.investing;
 
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PositiveOrZero;
 import lombok.Builder;
 import lombok.Value;
@@ -12,6 +13,9 @@ import java.time.OffsetDateTime;
 public class InvestingAccount {
 
   Long id;
+
+  @NotNull
+  Long userId;
 
   @PositiveOrZero
   long contractId;

@@ -142,6 +142,10 @@ public class Failure {
     return ofValidationErrors(List.of(detail));
   }
 
+  public static Failure of(String reason) {
+    return of(DEFAULT_I18N_CODE, reason);
+  }
+
   @Nonnull
   public static Failure.Detail ofValidationError(
     final @Nonnull String codeMessage,
