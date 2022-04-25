@@ -26,6 +26,7 @@ import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
+import java.util.function.Supplier;
 import java.util.stream.Stream;
 
 import static org.apache.commons.lang3.ObjectUtils.defaultIfNull;
@@ -43,7 +44,7 @@ public class InvestingAccountDbRepository implements InvestingAccountRepository 
   private final JooqStreamOperations streamOperations;
   private final BeanValidator<?> beanValidator;
 
-  public static InvestingAccountDbRepository create(final DataSource dataSource,
+  public static InvestingAccountRepository create(final DataSource dataSource,
                                                     final BeanValidator<?> beanValidator) {
     final var writer = TransactionAwareJooqWriteOperations.create(dataSource, DOMAIN_NAME, beanValidator);
     final var reader = TransactionAwareJooqReadOperations.create(dataSource, DOMAIN_NAME);
@@ -103,6 +104,11 @@ public class InvestingAccountDbRepository implements InvestingAccountRepository 
   @Override
   public Optional<Failure> updateBatch(final List<InvestingAccount> batch) {
     return jooqWriteOperations.batchUpdate(batch, INSTANCE::from);
+  }
+
+  @Override
+  public <T> Either<Failure, T> executeInTransaction(Supplier<Either<Failure, T>> operation) {
+    return jooqWriteOperations.executeInTransaction(operation::get);
   }
 
 }

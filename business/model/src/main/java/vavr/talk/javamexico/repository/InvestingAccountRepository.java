@@ -6,6 +6,7 @@ import vavr.talk.javamexico.investing.InvestingAccount;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Supplier;
 import java.util.stream.Stream;
 
 public interface InvestingAccountRepository {
@@ -23,5 +24,7 @@ public interface InvestingAccountRepository {
   Either<Failure, InvestingAccount> update(InvestingAccount investingAccount);
 
   Optional<Failure> updateBatch(List<InvestingAccount> batch);
+
+  <T> Either<Failure, T> executeInTransaction(Supplier<Either<Failure, T>> operation);
 
 }

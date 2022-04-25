@@ -17,7 +17,6 @@ import vavr.talk.javamexico.investing.InvestingContractMovement;
 import vavr.talk.javamexico.investing.InvestingUser;
 import vavr.talk.javamexico.repository.InvestingAccountRepository;
 import vavr.talk.javamexico.repository.InvestingContractMovementRepository;
-import vavr.talk.javamexico.repository.InvestingUserRepository;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
@@ -29,19 +28,18 @@ import java.util.Optional;
 @Slf4j
 @RequiredArgsConstructor
 public class DefaultInterestCalculation implements InterestCalculation {
-  private final InvestingUserRepository userRepository;
   private final InvestingAccountRepository accountRepository;
   private final InvestingContractMovementRepository movementRepository;
 
   @Override
-  public Optional<Failure> process(InterestCalculationContext context, Long userId) {
-    return userRepository.find(userId)
-      .peek(investingUser -> log.info("Usuario encontrado: '{}' ", investingUser.getId()))
-      .flatMap(this::calculationDataForUser)
+  public Optional<Failure> process(InterestCalculationContext context, InvestingUser user) {
+
+    final var result = calculationDataForUser(user)
       .map(data -> data.append(context))
       .map(this::calculateInterestFor)
       .peek(movements -> {
-        log.info("Movimientos: {}", movements.size());
+
+        //log.info("Movimientos: {}", movements.size());
 
         final var accountNewAmounts = new HashMap<Long, BigDecimal>();
         movements.forEach(data -> {
@@ -56,27 +54,38 @@ public class DefaultInterestCalculation implements InterestCalculation {
           accountNewAmounts.put(key, amount);
         });
 
-        log.info("data: {}", accountNewAmounts);
+        //log.info("data: {}", accountNewAmounts);
         final var investingAccounts = movements.stream()
           .map(moves -> moves._1)
           .filter(account -> accountNewAmounts.containsKey(account.getId()))
           .map(account -> getBuild(accountNewAmounts, account))
           .toList();
 
-        //guardar datos
-        accountRepository.updateBatch(investingAccounts).ifPresent(failure -> {
-          log.error(failure.toString());
-        });
+        if (!investingAccounts.isEmpty()) {
+          //guardar datos
+          accountRepository.updateBatch(investingAccounts)
+            .ifPresent(failure -> {
+              log.error(failure.toString());
+            });
+        }
+
 
         final var investingContractMovements = movements.stream()
           .map(movs -> movs._2)
           .toList();
-        movementRepository.insertBatch(investingContractMovements).ifPresent(failure -> {
-          log.error(failure.toString());
-        });
 
-      })
-      .fold(Optional::of, __ -> Optional.empty());
+        if(!investingContractMovements.isEmpty()) {
+          movementRepository.insertBatch(investingContractMovements)
+            .ifPresent(failure -> {
+              log.error(failure.toString());
+            });
+        }
+
+
+      });
+
+    return result
+      .fold(Optional::of, tuple2s -> Optional.<Failure>empty());
   }
 
   private InvestingAccount getBuild(HashMap<Long, BigDecimal> accountNewAmounts, InvestingAccount account) {
@@ -91,6 +100,7 @@ public class DefaultInterestCalculation implements InterestCalculation {
   }
 
   private Either<Failure, Tuple2<InvestingUser, List<InvestingAccount>>> calculationDataForUser(InvestingUser user) {
+    //log.info("Calculo para usuario: {}", user.getId());
     return accountRepository.findAllActiveAccounts(user.getId())
       .map(investingAccounts -> Tuple.of(user, investingAccounts));
   }
@@ -113,7 +123,7 @@ public class DefaultInterestCalculation implements InterestCalculation {
     final var divide = balance
       .multiply(annualInterestRate, mathContext)
       .divide(new BigDecimal("100.00"), mathContext);
-    log.info(template, contract.getContractName(), account.getId(), contract.getCurrency(), contract.getAnnualInterestRate(), account.getCurrentBalance(), balance, divide.toPlainString());
+    //log.info(template, contract.getContractName(), account.getId(), contract.getCurrency(), contract.getAnnualInterestRate(), account.getCurrentBalance(), balance, divide.toPlainString());
     return divide;
   }
 
