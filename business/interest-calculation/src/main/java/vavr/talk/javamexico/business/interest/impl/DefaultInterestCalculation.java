@@ -29,15 +29,12 @@ import java.util.Optional;
 @Slf4j
 @RequiredArgsConstructor
 public class DefaultInterestCalculation implements InterestCalculation {
-  private final InvestingUserRepository userRepository;
   private final InvestingAccountRepository accountRepository;
   private final InvestingContractMovementRepository movementRepository;
 
   @Override
-  public Optional<Failure> process(InterestCalculationContext context, Long userId) {
-    return userRepository.find(userId)
-      .peek(investingUser -> log.info("Usuario encontrado: '{}' ", investingUser.getId()))
-      .flatMap(this::calculationDataForUser)
+  public Optional<Failure> process(InterestCalculationContext context, InvestingUser user) {
+    return calculationDataForUser(user)
       .map(data -> data.append(context))
       .map(this::calculateInterestFor)
       .peek(movements -> {

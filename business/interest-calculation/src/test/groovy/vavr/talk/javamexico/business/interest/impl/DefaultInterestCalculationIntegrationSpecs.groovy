@@ -50,7 +50,7 @@ class DefaultInterestCalculationIntegrationSpecs extends Specification {
 
       userRepository.find(_ as Long) >> Either.right(InvestingUser.builder().id(1l).build())
       accountRepository.findAllActiveAccounts(_ as Long) >> Either.right([])
-      def underTest = new DefaultInterestCalculation(userRepository, accountRepository, movementRepository)
+      def underTest = new DefaultInterestCalculation(accountRepository, movementRepository)
 
       def calculationContext = InterestCalculationContext.builder()
         .contracts(contractRepository.findAll().get())
@@ -73,7 +73,7 @@ class DefaultInterestCalculationIntegrationSpecs extends Specification {
         .get()
       accountRepository.save(account)
     when:
-      def result = underTest.process(calculationContext, savedAccount.userId)
+      def result = underTest.process(calculationContext, savedUser)
     then:
       result.empty
   }

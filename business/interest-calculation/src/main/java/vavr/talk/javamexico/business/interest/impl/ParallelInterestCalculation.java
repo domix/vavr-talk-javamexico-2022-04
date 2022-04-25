@@ -31,7 +31,7 @@ public class ParallelInterestCalculation implements InterestCalculation {
   }
 
   @Override
-  public Optional<Failure> process(InterestCalculationContext context, Long userId) {
+  public Optional<Failure> process(InterestCalculationContext context, InvestingUser user) {
     return Optional.empty();
   }
 

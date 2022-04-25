@@ -26,7 +26,7 @@ public class SequentialInterestCalculationProcess implements InterestCalculation
         return userRepository.streamAll()
           .map(investingUserStream -> {
             return investingUserStream.map(investingUser -> {
-              return interestCalculation.process(context, investingUser.getId());
+              return interestCalculation.process(context, investingUser);
             });
           });
 
