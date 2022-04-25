@@ -43,7 +43,7 @@ public class InvestingAccountDbRepository implements InvestingAccountRepository 
   private final JooqStreamOperations streamOperations;
   private final BeanValidator<?> beanValidator;
 
-  public static InvestingAccountDbRepository create(final DataSource dataSource,
+  public static InvestingAccountRepository create(final DataSource dataSource,
                                                     final BeanValidator<?> beanValidator) {
     final var writer = TransactionAwareJooqWriteOperations.create(dataSource, DOMAIN_NAME, beanValidator);
     final var reader = TransactionAwareJooqReadOperations.create(dataSource, DOMAIN_NAME);

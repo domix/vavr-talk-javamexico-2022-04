@@ -1,15 +1,18 @@
 package vavr.talk.javamexico.business.interest.impl;
 
 import lombok.RequiredArgsConstructor;
-import vavr.talk.javamexico.Failure;
+import lombok.extern.slf4j.Slf4j;
 import vavr.talk.javamexico.business.interest.InterestCalculation;
 import vavr.talk.javamexico.business.interest.InterestCalculationContext;
 import vavr.talk.javamexico.business.interest.InterestCalculationProcess;
+import vavr.talk.javamexico.investing.InvestingContract;
 import vavr.talk.javamexico.repository.InvestingContractRepository;
 import vavr.talk.javamexico.repository.InvestingUserRepository;
 
+import java.util.List;
 import java.util.Optional;
 
+@Slf4j
 @RequiredArgsConstructor
 public class SequentialInterestCalculationProcess implements InterestCalculationProcess {
   private final InvestingUserRepository userRepository;
@@ -17,21 +20,24 @@ public class SequentialInterestCalculationProcess implements InterestCalculation
   private final InterestCalculation interestCalculation;
 
   @Override
-  public Optional<Failure> start() {
-    final var map = contractRepository.findAll()
-      .map(investingContracts -> InterestCalculationContext.builder()
-        .contracts(investingContracts)
-        .build())
-      .map(context -> {
-        return userRepository.streamAll()
-          .map(investingUserStream -> {
-            return investingUserStream.map(investingUser -> {
-              return interestCalculation.process(context, investingUser);
-            });
-          });
+  public void start() {
+    contractRepository.findAll()
+      .map(this::buildContext)
+      .peek(this::process)
+      .peekLeft(failure -> log.error("Failure: {}", failure));
+  }
 
-      });
+  private void process(InterestCalculationContext context) {
+    userRepository.streamAll()
+      .peek(userStream -> userStream
+        .map(user -> interestCalculation.process(context, user))
+        .filter(Optional::isPresent)
+        .forEach(failure -> log.error("Failure: {}", failure)));
+  }
 
-    return Optional.empty();
+  private InterestCalculationContext buildContext(List<InvestingContract> investingContracts) {
+    return InterestCalculationContext.builder()
+      .contracts(investingContracts)
+      .build();
   }
 }

@@ -40,7 +40,7 @@ public class InvestingUserDbRepository implements InvestingUserRepository {
   private final JooqStreamOperations streamOperations;
   private final BeanValidator<?> beanValidator;
 
-  public static InvestingUserDbRepository create(final DataSource dataSource,
+  public static InvestingUserRepository create(final DataSource dataSource,
                                                  final BeanValidator<?> beanValidator) {
     final var writer = TransactionAwareJooqWriteOperations.create(dataSource, DOMAIN_NAME, beanValidator);
     final var reader = TransactionAwareJooqReadOperations.create(dataSource, DOMAIN_NAME);

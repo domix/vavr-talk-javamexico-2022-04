@@ -17,7 +17,6 @@ import vavr.talk.javamexico.investing.InvestingContractMovement;
 import vavr.talk.javamexico.investing.InvestingUser;
 import vavr.talk.javamexico.repository.InvestingAccountRepository;
 import vavr.talk.javamexico.repository.InvestingContractMovementRepository;
-import vavr.talk.javamexico.repository.InvestingUserRepository;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
@@ -88,6 +87,7 @@ public class DefaultInterestCalculation implements InterestCalculation {
   }
 
   private Either<Failure, Tuple2<InvestingUser, List<InvestingAccount>>> calculationDataForUser(InvestingUser user) {
+    log.info("Calculo para usuario: {}", user.getId());
     return accountRepository.findAllActiveAccounts(user.getId())
       .map(investingAccounts -> Tuple.of(user, investingAccounts));
   }

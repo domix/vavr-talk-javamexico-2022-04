@@ -36,7 +36,7 @@ public class InvestingContractMovementDbRepository implements InvestingContractM
   private final JooqStreamOperations streamOperations;
   private final BeanValidator<?> beanValidator;
 
-  public static InvestingContractMovementDbRepository create(final DataSource dataSource,
+  public static InvestingContractMovementRepository create(final DataSource dataSource,
                                                              final BeanValidator<?> beanValidator) {
     final var writer = TransactionAwareJooqWriteOperations.create(dataSource, DOMAIN_NAME, beanValidator);
     final var reader = TransactionAwareJooqReadOperations.create(dataSource, DOMAIN_NAME);
