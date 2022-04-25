@@ -5,7 +5,7 @@ import org.flywaydb.core.api.migration.Context;
 import util.DataUtil;
 
 public class V2__AddUsers extends BaseJavaMigration {
-  public static final int USER_COUNT = 90_000;
+  public static final int USER_COUNT = 50_000;
 
   @Override
   public void migrate(Context context) throws Exception {
