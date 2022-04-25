@@ -84,25 +84,8 @@ public class DefaultInterestCalculation implements InterestCalculation {
 
       });
 
-    final var fold = result.fold(Optional::of, tuple2s -> Optional.<Failure>empty());
-
-    /*Optional<Failure> fold = accountRepository
-      .executeInTransaction(() -> {
-        final var s = result;
-        s.peek(tuple2s -> {
-          log.info("{}", tuple2s);
-        }).peekLeft(failure -> {
-          log.error("failure {}", failure);
-        })
-        ;
-        return result;
-      })
-      .fold(
-        Optional::of,
-        __ -> Optional.<Failure>empty());
-
-     */
-    return fold;
+    return result
+      .fold(Optional::of, tuple2s -> Optional.<Failure>empty());
   }
 
   private InvestingAccount getBuild(HashMap<Long, BigDecimal> accountNewAmounts, InvestingAccount account) {
